@@ -4,7 +4,12 @@ const { log } = require("../../functions");
 const GuildSchema = require("../../schemas/GuildSchema");
 const ExtendedClient = require("../../class/ExtendedClient");
 
+const yaml = require('js-yaml');
+const fs   = require('fs');
+
 const cooldown = new Map();
+
+const wordsList = yaml.load(fs.readFileSync('./src/data/words.yml', 'utf8'));
 
 module.exports = {
   event: "messageCreate",
@@ -16,8 +21,11 @@ module.exports = {
    */
   run: async (client, message) => {
     if (message.author.bot || message.channel.type === ChannelType.DM) return;
-    if (message.content.toLowerCase().includes('liger') || message.author.id == '494992193719894017') message.react('liger:1139690767435190282');
-    else return;  
+    for (const wl of wordsList) {
+      if (wl.words.some(e => message.content.toLowerCase().includes(e.toLowerCase()))) message.react(wl.emoji);
+    }
+    
+    // if (message.content.toLowerCase().includes('liger') || message.author.id == '494992193719894017') message.react('liger:1139690767435190282');
 
     /*if (!config.handler.commands.prefix) return;
 
