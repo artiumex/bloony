@@ -1,0 +1,14 @@
+node_modules
+package-lock.json
+EXAMPLES
+bloony.tar
+build.bat
+desktop.ini
+Dockerfile
+new.bat
+playground.js
+
+# DO NOT REMOVE THESE FOR SECURITY
+src/config.js
+.env
+dablooncat.env
