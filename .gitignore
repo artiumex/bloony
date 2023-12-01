@@ -9,6 +9,5 @@ new.bat
 playground.js
 
 # DO NOT REMOVE THESE FOR SECURITY
-src/config.js
 .env
 dablooncat.env
