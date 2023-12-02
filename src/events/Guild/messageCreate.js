@@ -22,6 +22,7 @@ module.exports = {
   run: async (client, message) => {
     if (message.author.bot || message.channel.type === ChannelType.DM) return;
     for (const wl of wordsList) {
+      if (wl.user !== null && wl.user.username !== wl.user) continue;
       if (wl.words.some(e => message.content.toLowerCase().includes(e.toLowerCase()))) message.react(wl.emoji);
     }
     
