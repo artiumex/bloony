@@ -9,7 +9,7 @@ const fs   = require('fs');
 
 const cooldown = new Map();
 
-const wordsList = yaml.load(fs.readFileSync('./src/data/words.yml', 'utf8'));
+const { abstain, list } = yaml.load(fs.readFileSync('./src/data/words.yml', 'utf8'));
 
 module.exports = {
   event: "messageCreate",
@@ -21,7 +21,10 @@ module.exports = {
    */
   run: async (client, message) => {
     if (message.author.bot || message.channel.type === ChannelType.DM) return;
-    for (const wl of wordsList) {
+
+    if (abstain.some(e => e == message.author.username)) return; // if message author's username is present in the abstain list
+
+    for (const wl of list) {
       if (wl.user && message.author.username !== wl.user) continue;
       if (wl.words.some(e => message.content.toLowerCase().includes(e.toLowerCase()))) {
         log(`(emoji) "${wl.words[0]}" detected from "${message.author.username}": ${message.content}`, 'event');
