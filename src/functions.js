@@ -12,6 +12,7 @@ const log = (string, style) => {
     err: { prefix: chalk.red("[ERROR]"), logFunction: console.error },
     warn: { prefix: chalk.yellow("[WARNING]"), logFunction: console.warn },
     done: { prefix: chalk.green("[SUCCESS]"), logFunction: console.log },
+    event: { prefix: chalk.magenta("[EVENT]"), logFunction: console.log },
   };
 
   const selectedStyle = styles[style] || { logFunction: console.log };
