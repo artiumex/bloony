@@ -22,7 +22,7 @@ module.exports = {
   run: async (client, message) => {
     if (message.author.bot || message.channel.type === ChannelType.DM) return;
     for (const wl of wordsList) {
-      if (wl.user !== null && message.author.username !== wl.user) continue;
+      if (wl.user && message.author.username !== wl.user) continue;
       if (wl.words.some(e => message.content.toLowerCase().includes(e.toLowerCase()))) {
         log(`(emoji) "${wl.words[0]}" detected from "${message.author.username}": ${message.content}`, 'event');
         message.react(wl.emoji);
