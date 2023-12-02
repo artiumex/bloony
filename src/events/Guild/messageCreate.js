@@ -23,7 +23,10 @@ module.exports = {
     if (message.author.bot || message.channel.type === ChannelType.DM) return;
     for (const wl of wordsList) {
       if (wl.user !== null && message.author.username !== wl.user) continue;
-      if (wl.words.some(e => message.content.toLowerCase().includes(e.toLowerCase()))) message.react(wl.emoji);
+      if (wl.words.some(e => message.content.toLowerCase().includes(e.toLowerCase()))) {
+        log(`(emoji) "${wl.words[0]}" detected from "${message.author.username}": ${message.content}`, 'event');
+        message.react(wl.emoji);
+      }
     }
     
     // if (message.content.toLowerCase().includes('liger') || message.author.id == '494992193719894017') message.react('liger:1139690767435190282');
