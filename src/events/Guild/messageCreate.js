@@ -45,8 +45,8 @@ module.exports = {
     }
     if (output > 0) {
       const Wallet = await findWallet(message.author.id).catch(error);
-      Wallet.jewels += output - (100 * Math.floor((Wallet.jewels + output) / 100));
       Wallet.bloons += Math.floor((Wallet.jewels + output) / 100);
+      Wallet.jewels += output - (100 * Math.floor((Wallet.jewels + output) / 100));
       await Wallet.save().catch(error);
       log(`Added ${output} jewels to ${message.author.username}'s wallet. They now have ${Wallet.jewels} jewels.`,'event');
     }
