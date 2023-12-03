@@ -19,7 +19,6 @@ const log = (string, style) => {
   selectedStyle.logFunction(`${selectedStyle.prefix || ""} ${string}`);
 };
 
-
 const error = (err) => {
   log(err, 'err');
 };

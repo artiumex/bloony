@@ -37,15 +37,17 @@ module.exports = {
 
     var output = 0;
     if (termsCount > 0) {
-      for (var i = 0; i < termsCount; i++) output += random(1,3);
+      for (var i = 0; i < termsCount; i++) output += random(0,2);
     } else {
       if (random(1, 10) == 10) {
         output = random(1,3);
       }
     }
     if (output > 0) {
-      const Wallet = await findWallet(message.author.id);
-      Wallet.jewels += output;
+      const Wallet = await findWallet(message.author.id).catch(error);
+      // Jewels convert to Dabloons at 100
+      Wallet.jewels += output - (100 * Math.floor((Wallet.jewels + output) / 100));
+      Wallet.dabloons += Math.floor((Wallet.jewels + output) / 100);
       await Wallet.save().catch(error);
       log(`Added ${output} jewels to ${message.author.username}'s wallet. They now have ${Wallet.jewels} jewels.`,'event');
     }
@@ -53,8 +55,8 @@ module.exports = {
 
 
     
-    // if (message.content.toLowerCase().includes('liger') || message.author.id == '494992193719894017') message.react('liger:1139690767435190282');
 
+    
     /*if (!config.handler.commands.prefix) return;
 
     let prefix = config.handler.prefix;
