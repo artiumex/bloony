@@ -1,5 +1,6 @@
 const config = require("../../config");
 const { log } = require("../../functions");
+const { ignored } = require("../../tools");
 const ExtendedClient = require("../../class/ExtendedClient");
 
 const cooldown = new Map();
@@ -38,6 +39,20 @@ module.exports = {
     if (!command) return;
 
     try {
+      if (ignored.some(e => e == interaction.user.username)) {
+        await interaction.reply({
+          content:
+            config.messageSettings.developerMessage !== undefined &&
+            config.messageSettings.developerMessage !== null &&
+            config.messageSettings.developerMessage !== ""
+              ? config.messageSettings.developerMessage
+              : "You are not authorized to use this command",
+          ephemeral: true,
+        });
+        log(`(Ignored) ${interaction.user.username} attempted a command`, 'info');
+        return;
+      }
+
       if (command.options?.developers) {
         if (
           config.users?.developers?.length > 0 &&
