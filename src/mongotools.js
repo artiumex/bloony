@@ -16,12 +16,10 @@ const findWallet = async id => {
         else Wallet = new WalletSchema({
             userid: id,
         });
-        log(`Stole ${id}'s wallet.`, 'event');
     } catch {
         Wallet = new WalletSchema({
         userid: id,
         });
-        log(`Created new wallet for id: ${id}`, 'event');
     }
     return Wallet
 }
