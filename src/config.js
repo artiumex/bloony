@@ -25,6 +25,7 @@ module.exports = {
     messageSettings: {
         nsfwMessage: "The current channel is not a NSFW channel.",
         developerMessage: "You are not authorized to use this command.",
+        ignoredMessage: "You are not authorized to use this command.",
         cooldownMessage: "Slow down buddy!",
         notHasPermissionMessage: "You do not have the permission to use this command.",
         missingDevIDsMessage: "This is a developer only command, but unable to execute due to missing user IDs in configuration file."

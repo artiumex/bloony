@@ -1,64 +1,59 @@
-abstain:
-  - duhbloon
-  - sovietdoggo.
-  - mccroy
-list:
-  - emoji: liger:1139690767435190282
-    words:
-      - liger
-      - tiger
-      - dog
-  - emoji: harvey1:789582997678325811
-    user: straightguy
-    words:
-      - harvey
-  - emoji: a:hedobeventing:796147667947225119
-    words:
-      - among us
-      - amongus
-      - amogus
-  - emoji: shook:1045730241353633822
-    words:
-      - shook
-      - werk
-      - cunt
-  - emoji: slay:1045730243262029854
-    words:
-      - slay
-      - slew
-      - sister
-  - emoji: mgcore:1081046309806551112
-    words:
-      - mg
-  - emoji: dabloon:1045726976670957721
-    words:
-      - bloon
-  - emoji: gay_pride:1180395486742577162
-    user: sprite_banana
-    words:
-      - gay
-      - fag
-      - f@g
-      - homophobic
-      - homophobe
-      - f slur
-      - mitski
-  - emoji: autism:1180391617195151441
-    words:
-      - autism
-      - autistic
-      - neurodivergent
-      - neuro-divergent
-      - adhd
-  - emoji: 🏳️‍🌈
-    words:
-      - gay
-      - queer
-      - fag
-      - mlm
-      - wlw
-      - lgbt
-  - emoji: emoji_9:1004522161463111801
-    words:
-      - chennault
-      - dilf
+- emoji: liger:1139690767435190282
+  words:
+    - liger
+    - tiger
+    - dog
+- emoji: harvey1:789582997678325811
+  user: straightguy
+  words:
+    - harvey
+- emoji: a:hedobeventing:796147667947225119
+  words:
+    - among us
+    - amongus
+    - amogus
+- emoji: shook:1045730241353633822
+  words:
+    - shook
+    - werk
+    - cunt
+- emoji: slay:1045730243262029854
+  words:
+    - slay
+    - slew
+    - sister
+- emoji: mgcore:1081046309806551112
+  words:
+    - mg
+- emoji: dabloon:1045726976670957721
+  words:
+    - bloon
+- emoji: gay_pride:1180395486742577162
+  user: sprite_banana
+  words:
+    - gay
+    - fag
+    - f@g
+    - homophobic
+    - homophobe
+    - f slur
+    - mitski
+- emoji: autism:1180391617195151441
+  words:
+    - autism
+    - autistic
+    - neurodivergent
+    - neuro-divergent
+    - adhd
+- emoji: 🏳️‍🌈
+  words:
+    - gay
+    - queer
+    - fag
+    - mlm
+    - wlw
+    - lgbt
+- emoji: emoji_9:1004522161463111801
+  words:
+    - chennault
+    - dilf
