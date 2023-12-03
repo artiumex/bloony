@@ -16,7 +16,7 @@ module.exports = {
         },
         mongodb: {
             uri: process.env.MONGO_URI,
-            toggle: false,
+            toggle: true,
         },
     },
     users: {
