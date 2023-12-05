@@ -4,7 +4,7 @@ const { bold, EmbedBuilder } = require('discord.js');
 
 const ExtendedClient = require('./class/ExtendedClient');
 const WalletSchema = require("./schemas/WalletSchema");
-const { random } = require("./functions");
+const { random, error } = require("./functions");
 
 const words = yaml.load(fs.readFileSync('./src/data/words.yml', 'utf8'));
 const ignored = yaml.load(fs.readFileSync('./src/data/ignored.yml', 'utf8'));
@@ -18,17 +18,16 @@ const presences = yaml.load(fs.readFileSync('./src/data/presences.yml', 'utf8'))
  * @returns The Schema of a User
  */
 const findWallet = async id => {
-    let wallet, Wallet;
+    let Wallet;
     try {
-        wallet = await WalletSchema.findOne({ userid: id });
-        if (wallet) Wallet = wallet;
-        else Wallet = new WalletSchema({
+        Wallet = await WalletSchema.findOne({ userid: id });
+        if (!Wallet) Wallet = new WalletSchema({
             userid: id,
         });
     } catch {
         Wallet = new WalletSchema({
         userid: id,
-        });
+        }).catch(error);
     }
     return Wallet
 }

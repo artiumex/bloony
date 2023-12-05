@@ -50,7 +50,7 @@ module.exports = {
       for (var i = 0; i < termsCount; i++) output += random(0,2);
     } else {
       if (random(1, 10) == 10) {
-        output = random(1,3);
+        output = random(1,5);
       }
     }
     if (output > 0) {
