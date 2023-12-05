@@ -17,29 +17,30 @@ module.exports = {
    * @returns
    */
   run: async (client, message) => {
-    if (message.author.bot || message.channel.type === ChannelType.DM) return;
+    const { author, content } = message;
+    if (author.bot || message.channel.type === ChannelType.DM) return;
 
-    if (ignored.includes(message.author.username)) return;
+    if (ignored.includes(author.username)) return;
 
     var termsCount = 0;
     for (const wl of words) {
       if (
         wl.ignored && 
         wl.ignored.length > 0 &&
-        (wl.ignored?.includes(message.author.username || wl.ignored == message.author.username))) continue;
+        (wl.ignored?.includes(author.username || wl.ignored == author.username))) continue;
       if (
         wl.allowed && 
         wl.allowed.length > 0 &&
-        (!wl.allowed?.includes(message.author.username || wl.allowed !== message.author.username))) continue;
+        (!wl.allowed?.includes(author.username || wl.allowed !== author.username))) continue;
 
       if (
         wl.words
         .filter(word => !word.startsWith('$'))
-        .some(e => message.content.toLowerCase().includes(e.toLowerCase())) ||
+        .some(e => content.toLowerCase().includes(e.toLowerCase())) ||
         wl.words
         .filter(word => word.startsWith('$'))
-        .some(e => message.content.toLowerCase().split(' ').includes(e.slice(1,e.length).toLowerCase()))) {
-        log(`(emoji) "${wl.words[0]}" detected from "${message.author.username}": ${message.content}`, 'event');
+        .some(e => content.toLowerCase().split(' ').includes(e.slice(1,e.length).toLowerCase()))) {
+        log(`(emoji) "${wl.words[0]}" detected from "${author.username}": ${content}`, 'event');
         termsCount++;
         await message.react(wl.emoji).catch(error);
       } 
@@ -53,12 +54,13 @@ module.exports = {
         output = random(1,5);
       }
     }
+
     if (output > 0) {
-      const Wallet = await findWallet(message.author.id).catch(error);
+      const Wallet = await findWallet(author.id).catch(error);
       Wallet.bloons += Math.floor((Wallet.jewels + output) / 100);
       Wallet.jewels += output - (100 * Math.floor((Wallet.jewels + output) / 100));
       await Wallet.save().catch(error);
-      log(`Added ${output} jewels to ${message.author.username}'s wallet. They now have ${Wallet.jewels} jewels.`,'event');
+      log(`Added ${output} jewels to ${author.username}'s wallet. They now have ${Wallet.jewels} jewels.`,'event');
     }
   },
 };
