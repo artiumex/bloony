@@ -4,6 +4,7 @@ module.exports = {
     client: {
         token: process.env.DISCORD_TOKEN,
         id: process.env.DISCORD_BOTID,
+        presence: 'just woke up :/',
     },
     handler: {
         prefix: "Dabloon, ",

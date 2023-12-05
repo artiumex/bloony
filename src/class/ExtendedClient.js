@@ -5,6 +5,7 @@ const events = require("../handlers/events");
 const deploy = require("../handlers/deploy");
 const mongoose = require("../handlers/mongoose");
 const components = require("../handlers/components");
+const jobs = require("../handlers/jobs");
 
 module.exports = class extends Client {
     collection = {
@@ -25,11 +26,11 @@ module.exports = class extends Client {
             partials: [Object.keys(Partials)],
             presence: {
                 activities: [{
-                    name: 'working rn',
+                    name: 'dablooncat',
                     type: 4,
-                    state: 'lollygagging...'
+                    state: config.client.presence,
                 }]
-            }
+            },
         });
     };
 
@@ -42,6 +43,7 @@ module.exports = class extends Client {
 
         await this.login(process.env.CLIENT_TOKEN || config.client.token);
 
-        if (config.handler.deploy) deploy(this, config);
+        if (config.handler.deploy) await deploy(this, config);
+        jobs(this);
     };
 };
