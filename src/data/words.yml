@@ -35,11 +35,19 @@
 - emoji: dabloon:1045726976670957721
   words:
     - bloon
-- emoji: Bisexual_Pride_Flag:1181494440800559104
-  allowed: ratman97
+- emoji: f_slur:1181633322657513553
+  allowed: 
+    - ratman97
+    - duhbloon
   words:
-    - ratman
+    - $ratman
     - gay
+    - lesbian
+    - bisexual
+    - lgbt
+    - homosexual
+    - $bi
+    - queer
     - homophobic
     - homophobe
     - f slur
@@ -74,7 +82,7 @@
     - $wlw
     - lgbt
     - homosexual
-- emoji:
+- emoji: 🏳️‍⚧️
   words:
     - trans
     - pronoun
@@ -82,3 +90,17 @@
   words:
     - chennault
     - dilf
+- emoji: 🦅
+  words:
+    - america
+    - $usa
+    - mcdonald
+    - burger
+    - $uk
+    - britian
+    - british
+- emoji: jfk:1181638753559781519
+  words:
+    - jfk
+    - assassination
+    - kennedy

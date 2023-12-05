@@ -39,7 +39,6 @@ module.exports = {
         wl.words
         .filter(word => word.startsWith('$'))
         .some(e => message.content.toLowerCase().split(' ').includes(e.slice(1,e.length).toLowerCase()))) {
-      // if (wl.words.some(e => message.content.toLowerCase().includes(e.toLowerCase()))) {
         log(`(emoji) "${wl.words[0]}" detected from "${message.author.username}": ${message.content}`, 'event');
         termsCount++;
         await message.react(wl.emoji).catch(error);
