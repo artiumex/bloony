@@ -8,6 +8,7 @@ const { random } = require("./functions");
 
 const words = yaml.load(fs.readFileSync('./src/data/words.yml', 'utf8'));
 const ignored = yaml.load(fs.readFileSync('./src/data/ignored.yml', 'utf8'));
+const presences = yaml.load(fs.readFileSync('./src/data/presences.yml', 'utf8'));
 
 /**
  * Finds the wallet of a given User ID
@@ -84,6 +85,7 @@ const display = async (client, Wallet) => {
 module.exports = {
     words,
     ignored,
+    presences,
     findWallet,
     newEmbed,
     display,

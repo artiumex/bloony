@@ -19,18 +19,31 @@ module.exports = {
   run: async (client, message) => {
     if (message.author.bot || message.channel.type === ChannelType.DM) return;
 
-    if (ignored.includes(message.author.username)) return; // if message author's username is present in the abstain list
+    if (ignored.includes(message.author.username)) return;
 
     var termsCount = 0;
     for (const wl of words) {
-      //if (!Array.isArray(wl.user) || !Array.isArray(wl.ignored)) continue; //might remove later
-      if (wl.ignored && (wl.ignored?.includes(message.author.username || wl.ignored == message.author.username))) continue;
-      if (wl.user && (!wl.user?.includes(message.author.username || wl.user !== message.author.username))) continue;
-      if (wl.words.some(e => message.content.toLowerCase().includes(e.toLowerCase()))) {
+      if (
+        wl.ignored && 
+        wl.ignored.length > 0 &&
+        (wl.ignored?.includes(message.author.username || wl.ignored == message.author.username))) continue;
+      if (
+        wl.allowed && 
+        wl.allowed.length > 0 &&
+        (!wl.allowed?.includes(message.author.username || wl.allowed !== message.author.username))) continue;
+
+      if (
+        wl.words
+        .filter(word => !word.startsWith('$'))
+        .some(e => message.content.toLowerCase().includes(e.toLowerCase())) ||
+        wl.words
+        .filter(word => word.startsWith('$'))
+        .some(e => message.content.toLowerCase().split(' ').includes(e.slice(1,e.length).toLowerCase()))) {
+      // if (wl.words.some(e => message.content.toLowerCase().includes(e.toLowerCase()))) {
         log(`(emoji) "${wl.words[0]}" detected from "${message.author.username}": ${message.content}`, 'event');
         termsCount++;
         await message.react(wl.emoji).catch(error);
-      }
+      } 
     }
 
     var output = 0;

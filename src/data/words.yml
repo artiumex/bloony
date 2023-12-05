@@ -1,10 +1,17 @@
+# full word match: match full word (between spaces)
+# precede term with "$"
+# full word match term can not have spaces
+
+# if both allowed and ignored are defined, only ignored will be considered
+# avoid plural words that end in 's', unless tagged as full word match
+
 - emoji: liger:1139690767435190282
   words:
     - liger
     - tiger
-    - dog
+    - $dog
 - emoji: harvey1:789582997678325811
-  user: straightguy
+  allowed: straightguy
   words:
     - harvey
 - emoji: a:hedobeventing:796147667947225119
@@ -28,16 +35,24 @@
 - emoji: dabloon:1045726976670957721
   words:
     - bloon
-- emoji: gay_pride:1180395486742577162
-  user: sprite_banana
+- emoji: Bisexual_Pride_Flag:1181494440800559104
+  allowed: ratman97
   words:
+    - ratman
     - gay
-    - fag
-    - f@g
     - homophobic
     - homophobe
     - f slur
-    - mitski
+    - $man
+    - $men
+    - straight
+    - women
+    - woman
+    - heterosexual
+    - $dnd
+    - d&d
+    - $hoe
+    - pussy
 - emoji: autism:1180391617195151441
   words:
     - autism
@@ -46,13 +61,23 @@
     - neuro-divergent
     - adhd
 - emoji: 🏳️‍🌈
+  ignored: ratman97
   words:
     - gay
+    - lesbian
+    - bisexual
+    - $bi
     - queer
-    - fag
-    - mlm
-    - wlw
+    - $fag
+    - faggot
+    - $mlm
+    - $wlw
     - lgbt
+    - homosexual
+- emoji:
+  words:
+    - trans
+    - pronoun
 - emoji: emoji_9:1004522161463111801
   words:
     - chennault
