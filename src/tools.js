@@ -70,11 +70,11 @@ const display = async (client, Wallet) => {
             user: user,
             jewels: {
                 amount: w.jewels,
-                view: `:gem: ${bold(w.jewels)}`,
+                view: `${client.emojis.cache.find(emoji => emoji.id === "1181675156935037069") || 'gem'} ${bold(w.jewels)}`,
             },
             bloons: {
                 amount: w.bloons,
-                view: `:coin: ${bold(w.bloons)}`,
+                view: `${client.emojis.cache.find(emoji => emoji.id === "1045726976670957721") || ':coin:'} ${bold(w.bloons)}`,
             },
         });
     }
