@@ -7,6 +7,7 @@ const ExtendedClient = require("../../class/ExtendedClient");
 
 const cooldown = new Map();
 
+const exch_rate = 50;
 
 module.exports = {
   event: "messageCreate",
@@ -57,8 +58,8 @@ module.exports = {
 
     if (output > 0) {
       const Wallet = await findWallet(author.id).catch(error);
-      Wallet.bloons += Math.floor((Wallet.jewels + output) / 100);
-      Wallet.jewels += output - (100 * Math.floor((Wallet.jewels + output) / 100));
+      Wallet.bloons += Math.floor((Wallet.jewels + output) / exch_rate);
+      Wallet.jewels += output - (exch_rate * Math.floor((Wallet.jewels + output) / exch_rate));
       await Wallet.save().catch(error);
       log(`Added ${output} jewels to ${author.username}'s wallet. They now have ${Wallet.jewels} jewels.`,'event');
     }
