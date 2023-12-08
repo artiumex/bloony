@@ -1,0 +1,6 @@
+- name: bloons
+  emojiID: '1045726976670957721'
+  defaultText: ':coin:'
+- name: jewels
+  emojiID: '1181675156935037069'
+  defaultText: ':gem:'

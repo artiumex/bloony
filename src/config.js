@@ -5,6 +5,7 @@ module.exports = {
         token: process.env.DISCORD_TOKEN,
         id: process.env.DISCORD_BOTID,
         presence: 'just woke up :/',
+        nickname: "Tony",
     },
     handler: {
         prefix: "Dabloon, ",

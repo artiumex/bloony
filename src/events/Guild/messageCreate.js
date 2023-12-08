@@ -4,6 +4,7 @@ const { log, random, error } = require("../../functions");
 const { words, ignored, findWallet } = require("../../tools");
 const WalletSchema = require("../../schemas/WalletSchema");
 const ExtendedClient = require("../../class/ExtendedClient");
+const { run } = require('../../chat/module');
 
 const cooldown = new Map();
 
@@ -50,11 +51,9 @@ module.exports = {
     var output = 0;
     if (termsCount > 0) {
       for (var i = 0; i < termsCount; i++) output += random(0,2);
-    } else {
-      if (random(1, 10) == 10) {
+    } else if (random(1, 10) == 10) {
         output = random(1,5);
       }
-    }
 
     if (output > 0) {
       const Wallet = await findWallet(author.id).catch(error);
@@ -63,5 +62,6 @@ module.exports = {
       await Wallet.save().catch(error);
       log(`Added ${output} jewels to ${author.username}'s wallet. They now have ${Wallet.jewels} jewels.`,'event');
     }
+    run(client, message);
   },
 };

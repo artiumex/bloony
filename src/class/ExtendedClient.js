@@ -1,4 +1,5 @@
 const { Client, Partials, Collection, GatewayIntentBits } = require("discord.js");
+const OpenAI = require("openai");
 const config = require('../config');
 const commands = require("../handlers/commands");
 const events = require("../handlers/events");
@@ -6,6 +7,7 @@ const deploy = require("../handlers/deploy");
 const mongoose = require("../handlers/mongoose");
 const components = require("../handlers/components");
 const jobs = require("../handlers/jobs");
+const chats = require('../chat/module');
 
 module.exports = class extends Client {
     collection = {
@@ -16,9 +18,15 @@ module.exports = class extends Client {
             buttons: new Collection(),
             selects: new Collection(),
             modals: new Collection()
-        }
+        },
     };
     applicationcommandsArray = [];
+    chathistory = [];
+    openai = new OpenAI({
+        apiKey: process.env.API_KEY,
+        baseURL: process.env.BASE_URL,
+    });
+    nickname = config.client.nickname;
 
     constructor() {
         super({
@@ -45,5 +53,6 @@ module.exports = class extends Client {
 
         if (config.handler.deploy) await deploy(this, config);
         jobs(this);
+        chats.setup(this);
     };
 };

@@ -10,6 +10,10 @@ const words = yaml.load(fs.readFileSync('./src/data/words.yml', 'utf8'));
 const ignored = yaml.load(fs.readFileSync('./src/data/ignored.yml', 'utf8'));
 const presences = yaml.load(fs.readFileSync('./src/data/presences.yml', 'utf8'));
 
+const rawViews = yaml.load(fs.readFileSync('./src/data/views.yml', 'utf8'));
+const viewsList = new Map();
+rawViews.forEach(e => { viewsList.set(e.name, e) });
+
 /**
  * Finds the wallet of a given User ID
  * Creates one if it doesn't exist
@@ -70,16 +74,24 @@ const display = async (client, Wallet) => {
             user: user,
             jewels: {
                 amount: w.jewels,
-                view: `${client.emojis.cache.find(emoji => emoji.id === "1181675156935037069") || 'gem'} ${bold(w.jewels)}`,
+                view: `${views(client, 'jewels')} ${bold(w.jewels)}`,
             },
             bloons: {
                 amount: w.bloons,
-                view: `${client.emojis.cache.find(emoji => emoji.id === "1045726976670957721") || ':coin:'} ${bold(w.bloons)}`,
+                view: `${views(client, 'bloons')} ${bold(w.bloons)}`,
             },
         });
     }
     return isArray ? output : output[0];
 } 
+
+
+const views = (client, name) => { 
+    var output = ':heart:'; // default output
+    const lilView = viewsList.get(name);
+    if (lilView) output = client.emojis.cache.find(emoji => emoji.id === lilView.emojiID) || lilView.defaultText;
+    return output
+}
 
 module.exports = {
     words,
