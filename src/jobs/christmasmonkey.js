@@ -10,7 +10,7 @@ module.exports = {
      */
     run: async (client) => {
         await client.user.setAvatar('./src/data/avatars/christmas_monkey.jpg').catch(client.nerrify);
-        await client.user.setUsername('ChristmasMonkey').catch(client.nerrify);
+        await client.allNicknames('ChristmasMonkey', "ChristmasMonkeyMaxxing").catch(client.nerrify);
         await client.notify('Christmas Monkey Mode Active!', 'event');
     }
 }

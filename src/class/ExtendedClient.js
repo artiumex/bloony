@@ -69,6 +69,32 @@ module.exports = class extends Client {
         this.notify(`${err}`, 'err');
     }
 
+    /**
+     * Changes the NICKNAME of the bot in every server it is in.
+     * @param {string} newNick - The nickname to set.
+     * @param {string} reason - The reason you're changing the nickname. (Shows in the audit log)
+     */
+    allNicknames = async (newNick, reason) => {
+        const successes = [];
+        const failures = [];
+
+        const guilds = [];
+        (await this.guilds.fetch({ force: true }))
+            .forEach(guild => guilds.push({ id: guild.id, name: guild.name }));
+
+        for (const g of guilds) {
+            try {
+                const guildy = await this.guilds.fetch(g.id);
+                await guildy.members.me.setNickname(newNick, reason);
+                successes.push(`${guildy.name}: ${guildy.id}`);
+            } catch {
+                failures.push(`${g.name}: ${g.id}`);
+            }
+        }
+        this.notify(`${newNick}\n\nSuceeded changing nickname in following servers:\n- ${successes.join('\n- ')}\nFailed in:\n- ${failures.join('\n- ')}`, 'info');
+        
+    }
+
     start = async () => {
         commands(this);
         events(this);
