@@ -4,7 +4,7 @@ const { log } = require('../functions');
 module.exports = {
     name: 'nochristmas',
     autorun: false,
-    cron: '0 0 25 12 *',
+    cron: '0 0 26 12 *',
     /**
      * @param {ExtendedClient} client
      */
