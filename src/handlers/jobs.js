@@ -15,7 +15,7 @@ module.exports = (client) => {
             if (!job.run) return log(`"${file}" job could not be scheduled: Invalid run method!`, 'err');
             var task = cron.schedule(job.cron, () => job.run(client), { scheduled: true });
             log('Scheduled cron task: ' + file, 'info');
-            job.run(client);
+            if (job.autorun) job.run(client);
         } else log(`"${file}" job could not be scheduled: Invalid cron schedule!`, 'err');
     }
 }

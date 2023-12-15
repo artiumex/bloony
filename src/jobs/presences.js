@@ -4,6 +4,7 @@ const { random } = require('../functions');
 
 module.exports = {
     name: 'presences',
+    autorun: true,
     cron: '*/15 * * * *',
     /**
      * @param {ExtendedClient} client
