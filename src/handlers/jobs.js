@@ -11,6 +11,7 @@ const ExtendedClient = require('../class/ExtendedClient');
 module.exports = (client) => {
     for (const file of readdirSync('./src/jobs/').filter((f) => f.endsWith('.js'))) {
         const job = require('../jobs/' + file);
+        if (job.skip) continue;
         if (job.cron && job.cron.length > 0 && cron.validate(job.cron)) {
             if (!job.run) return log(`"${file}" job could not be scheduled: Invalid run method!`, 'err');
             var task = cron.schedule(job.cron, () => job.run(client), { scheduled: true, timezone: "America/Chicago" });

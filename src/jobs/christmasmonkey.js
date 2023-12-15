@@ -4,6 +4,7 @@ const { error } = require('../functions');
 module.exports = {
     name: 'christmas',
     autorun: false,
+    skip: false,
     cron: '0 12 15 12 *',
     /**
      * @param {ExtendedClient} client
