@@ -42,25 +42,28 @@ module.exports = {
         wl.words
         .filter(word => word.startsWith('$'))
         .some(e => content.toLowerCase().split(' ').includes(e.slice(1,e.length).toLowerCase()))) {
-        log(`(emoji) "${wl.words[0]}" detected from "${author.username}": ${content}`, 'event');
+        log(`(Emoji) "${wl.words[0]}" detected from "${author.username}": ${content}`, 'event');
         termsCount++;
         await message.react(wl.emoji).catch(error);
       } 
     }
 
     var output = 0;
+    let eventType = "random";
     if (termsCount > 0) {
+      eventType = "Emoji";
       for (var i = 0; i < termsCount; i++) output += random(0,2);
     } else if (random(1, 10) == 10) {
-        output = random(1,5);
-      }
+      eventType = "Random";
+      output = random(1,5);
+    }
 
     if (output > 0) {
       const Wallet = await findWallet(author.id).catch(error);
       Wallet.bloons += Math.floor((Wallet.jewels + output) / exch_rate);
       Wallet.jewels += output - (exch_rate * Math.floor((Wallet.jewels + output) / exch_rate));
       await Wallet.save().catch(error);
-      log(`Added ${output} jewels to ${author.username}'s wallet. They now have ${Wallet.jewels} jewels.`,'event');
+      log(`(${eventType}) Added ${output} jewels to ${author.username}'s wallet. They now have ${Wallet.jewels} jewels.`,'event');
     }
     run(client, message);
   },
