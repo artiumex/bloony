@@ -10,7 +10,7 @@ module.exports = {
      */
     run: async (client) => {
         await client.user.setAvatar('./src/data/avatars/cat.png').catch(client.nerrify);
-        await client.allNicknames('DabloonCat', "NormalMaxxing").catch(client.nerrify);
+        await client.allNicknames('Dabloon Cat', "NormalMaxxing").catch(client.nerrify);
         await client.notify('DabloonCat Mode Active!', 'event');
     }
 }
