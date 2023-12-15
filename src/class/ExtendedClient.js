@@ -42,6 +42,22 @@ module.exports = class extends Client {
         });
     };
 
+    /**
+     * 
+     * @param {string} msg 
+     * @param {'info' | 'err' | 'done' | 'event'} style 
+     */
+    notify = async (msg, style) => {
+        const styles = {
+            info: { prefix: ":grey_exclamation:", title: "INFO" },
+            err: { prefix: ":rotating_light:", title: "ERROR" },
+            done: { prefix: ":white_check_mark:", title: "SUCCESS" },
+            event: { prefix: ":tada:", title: "EVENT" },
+        };
+        const selectedStyle = styles[style] || { prefix: ":pensive:", title: "UNKNOWN" };
+        this.users.cache.find(u => u.id == process.env.ADMIN).send(`${selectedStyle.prefix} [${selectedStyle.title}] ${selectedStyle.prefix}\n\`\`\`${msg}\`\`\``);
+    }
+
     start = async () => {
         commands(this);
         events(this);

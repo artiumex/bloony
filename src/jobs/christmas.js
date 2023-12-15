@@ -1,16 +1,18 @@
 const ExtendedClient = require('../class/ExtendedClient');
-const { log } = require('../functions');
+const { error } = require('../functions');
 
 module.exports = {
     name: 'christmas',
     autorun: false,
-    cron: '0 0 25 12 *',
+    cron: '0 0 23 12 *',
     /**
      * @param {ExtendedClient} client
      */
-    run: (client) => {
-        client.user.setAvatar('./src/data/avatars/christmas_cat.jpg')
-            .then(user => log(`Christmas avatar set!`, 'event'))
-            .catch(console.error);
+    run: async (client) => {
+        await client.user.setAvatar('./src/data/avatars/christmas_cat.jpg').catch(error);
+        await client.notify('Christmas Kitty Avatar Set!', 'done').catch(error);
+        await client.user.setUsername('ChristmasKitty').catch(error);
+        await client.notify('Christmas Kitty Username Set!', 'done').catch(error);
+        await client.notify('Christmas Kitty Mode Active!', 'event').catch(error);
     }
 }
