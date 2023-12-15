@@ -1,5 +1,4 @@
 const ExtendedClient = require('../class/ExtendedClient');
-const { error } = require('../functions');
 
 module.exports = {
     name: 'christmas',
@@ -10,10 +9,8 @@ module.exports = {
      * @param {ExtendedClient} client
      */
     run: async (client) => {
-        await client.user.setAvatar('./src/data/avatars/christmas_cat.jpg').catch(error);
-        await client.notify('Christmas Kitty Avatar Set!', 'done').catch(error);
-        await client.user.setUsername('ChristmasKitty').catch(error);
-        await client.notify('Christmas Kitty Username Set!', 'done').catch(error);
-        await client.notify('Christmas Kitty Mode Active!', 'event').catch(error);
+        await client.user.setAvatar('./src/data/avatars/christmas_cat.jpg').catch(client.nerrify);
+        await client.user.setUsername('ChristmasKitty').catch(client.nerrify);
+        await client.notify('Christmas Kitty Mode Active!', 'event');
     }
 }

@@ -9,6 +9,8 @@ const components = require("../handlers/components");
 const jobs = require("../handlers/jobs");
 const chats = require('../chat/module');
 
+const { log, error } = require('../functions');
+
 module.exports = class extends Client {
     collection = {
         interactioncommands: new Collection(),
@@ -43,7 +45,7 @@ module.exports = class extends Client {
     };
 
     /**
-     * 
+     * Sends notification to the defined admin. 
      * @param {string} msg 
      * @param {'info' | 'err' | 'done' | 'event'} style 
      */
@@ -55,7 +57,16 @@ module.exports = class extends Client {
             event: { prefix: ":tada:", title: "EVENT" },
         };
         const selectedStyle = styles[style] || { prefix: ":pensive:", title: "UNKNOWN" };
-        this.users.cache.find(u => u.id == process.env.ADMIN).send(`${selectedStyle.prefix} [${selectedStyle.title}] ${selectedStyle.prefix}\n\`\`\`${msg}\`\`\``);
+        this.users.cache.find(u => u.id == process.env.ADMIN).send(`${selectedStyle.prefix} [${selectedStyle.title}] ${selectedStyle.prefix}\n\`\`\`${msg}\`\`\``).catch(error);
+    }
+    /**
+     * Logs the error and notifies the admin of said error.
+     * Can be called in a "catch" function.
+     * @param {error} err 
+     */
+    nerrify = (err) => {
+        log(err, 'err');
+        this.notify(`${err}`, 'err');
     }
 
     start = async () => {
