@@ -4,7 +4,7 @@ const { log, random, error } = require("../../functions");
 const { words, ignored, findWallet } = require("../../tools");
 const WalletSchema = require("../../schemas/WalletSchema");
 const ExtendedClient = require("../../class/ExtendedClient");
-const { run } = require('../../chat/module');
+// const { run } = require('../../chat/module');
 
 const cooldown = new Map();
 
@@ -65,6 +65,6 @@ module.exports = {
       await Wallet.save().catch(error);
       log(`(${eventType}) Added ${output} jewels to ${author.username}'s wallet. They now have ${Wallet.jewels} jewels.`,'event');
     }
-    run(client, message);
+    // run(client, message);
   },
 };

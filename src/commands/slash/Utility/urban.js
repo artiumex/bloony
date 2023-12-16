@@ -3,6 +3,7 @@ const ExtendedClient = require('../../../class/ExtendedClient');
 
 const axios = require('axios');
 const { EmbedBuilder } = require('discord.js');
+const { error } = require('../../../functions');
 
 module.exports = {
     structure: new SlashCommandBuilder()
@@ -19,7 +20,7 @@ module.exports = {
     run: async (client, interaction) => {
         await interaction.deferReply();
         const term = interaction.options.getString('term');
-        const response = await axios.get(`https://api.urbandictionary.com/v0/define?term=${term}`).catch((error) => {console.error(error);});
+        const response = await axios.get(`https://api.urbandictionary.com/v0/define?term=${term}`).catch(error);
         
         const trimmer = (text, maxLength) => {
             var output = text;
