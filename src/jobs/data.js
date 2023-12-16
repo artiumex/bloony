@@ -1,6 +1,6 @@
 const axios = require('axios');
 const ExtendedClient = require('../class/ExtendedClient');
-const { random, error } = require('../functions');
+const { random, error, log } = require('../functions');
 
 module.exports = {
     name: 'data',
@@ -21,5 +21,6 @@ module.exports = {
                 state: client.data.presence,
             }]
         });
+        log('Updated bot data', 'info');
     }
 }
