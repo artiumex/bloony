@@ -1,6 +1,5 @@
 const config = require("../../config");
 const { log } = require("../../functions");
-const { ignored } = require("../../tools");
 const ExtendedClient = require("../../class/ExtendedClient");
 
 const cooldown = new Map();
@@ -39,7 +38,7 @@ module.exports = {
     if (!command) return;
 
     try {
-      if (ignored.some(e => e == interaction.user.username)) {
+      if (client.data.ignored.some(e => e == interaction.user.username)) {
         await interaction.reply({
           content:
             config.messageSettings.developerMessage !== undefined &&

@@ -1,7 +1,7 @@
 const { ChannelType, Message } = require("discord.js");
 const config = require("../../config");
 const { log, random, error } = require("../../functions");
-const { words, ignored, findWallet } = require("../../tools");
+const { findWallet } = require("../../tools");
 const WalletSchema = require("../../schemas/WalletSchema");
 const ExtendedClient = require("../../class/ExtendedClient");
 // const { run } = require('../../chat/module');
@@ -22,10 +22,10 @@ module.exports = {
     const { author, content } = message;
     if (author.bot || message.channel.type === ChannelType.DM) return;
 
-    if (ignored.includes(author.username)) return;
+    if (client.data.ignored.includes(author.username)) return;
 
     var termsCount = 0;
-    for (const wl of words) {
+    for (const wl of client.data.words) {
       if (
         wl.ignored && 
         wl.ignored.length > 0 &&
@@ -36,13 +36,13 @@ module.exports = {
         (!wl.allowed?.includes(author.username || wl.allowed !== author.username))) continue;
 
       if (
-        wl.words
+        wl.terms
         .filter(word => !word.startsWith('$'))
         .some(e => content.toLowerCase().includes(e.toLowerCase())) ||
-        wl.words
+        wl.terms
         .filter(word => word.startsWith('$'))
         .some(e => content.toLowerCase().split(' ').includes(e.slice(1,e.length).toLowerCase()))) {
-        log(`(Emoji) "${wl.words[0]}" detected from "${author.username}": ${content}`, 'event');
+        log(`(Emoji) "${wl.terms[0]}" detected from "${author.username}": ${content}`, 'event');
         termsCount++;
         await message.react(wl.emoji).catch(error);
       } 

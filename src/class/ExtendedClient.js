@@ -30,6 +30,11 @@ module.exports = class extends Client {
         baseURL: process.env.BASE_URL,
     });
     nickname = config.client.nickname;
+    data = {
+        ignored: [],
+        words: [],
+        presence: config.client.presence,
+    };
 
     constructor() {
         super({

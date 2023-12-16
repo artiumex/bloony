@@ -1,14 +1,14 @@
 const yaml = require('js-yaml');
-const fs   = require('fs');
+const fs = require('fs');
 const { bold, EmbedBuilder } = require('discord.js');
 
 const ExtendedClient = require('./class/ExtendedClient');
 const WalletSchema = require("./schemas/WalletSchema");
 const { random, error } = require("./functions");
 
-const words = yaml.load(fs.readFileSync('./src/data/words.yml', 'utf8'));
-const ignored = yaml.load(fs.readFileSync('./src/data/ignored.yml', 'utf8'));
-const presences = yaml.load(fs.readFileSync('./src/data/presences.yml', 'utf8'));
+// const words = yaml.load(fs.readFileSync('./src/data/words.yml', 'utf8'));
+// const ignored = yaml.load(fs.readFileSync('./src/data/ignored.yml', 'utf8'));
+// const presences = yaml.load(fs.readFileSync('./src/data/presences.yml', 'utf8'));
 
 const rawViews = yaml.load(fs.readFileSync('./src/data/views.yml', 'utf8'));
 const viewsList = new Map();
@@ -94,9 +94,9 @@ const views = (client, name) => {
 }
 
 module.exports = {
-    words,
-    ignored,
-    presences,
+    // words,
+    // ignored,
+    // presences,
     findWallet,
     newEmbed,
     display,
