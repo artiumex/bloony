@@ -20,13 +20,10 @@ module.exports = {
    */
   run: async (client, message) => {
     const { author, content } = message;
-    if (
-      message.channel.type === ChannelType.DM && 
-      author.id == process.env.ADMIN &&
-      content.startsWith('!state')
-    ){
+    if (config.users.developers.includes(author.id) && content.startsWith('!state')){
       const state = content.slice(6, content.length);
       presenceChange(client, state);
+      client.notify(`Manual presence update: "${state}"`, 'event');
       return;
     }
     if (author.bot || message.channel.type === ChannelType.DM) return;
