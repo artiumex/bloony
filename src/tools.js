@@ -5,7 +5,7 @@ const axios = require('axios');
 
 const ExtendedClient = require('./class/ExtendedClient');
 const WalletSchema = require("./schemas/WalletSchema");
-const { random, error } = require("./functions");
+const { random, error, log } = require("./functions");
 
 const rawViews = yaml.load(fs.readFileSync('./src/data/views.yml', 'utf8'));
 const viewsList = new Map();
