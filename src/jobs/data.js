@@ -11,7 +11,7 @@ module.exports = {
      * @param {ExtendedClient} client
      */
     run: async (client) => {
-        const response = await axios.get(process.env.GRABURL).catch(error);
+        const response = await axios.get(process.env.TATTLER_URL+"/grab").catch(error);
         if (!response) return;
         client.data = response.data;
         client.user.setPresence({
