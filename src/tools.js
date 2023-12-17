@@ -1,6 +1,7 @@
 const yaml = require('js-yaml');
 const fs = require('fs');
 const { bold, EmbedBuilder } = require('discord.js');
+const axios = require('axios');
 
 const ExtendedClient = require('./class/ExtendedClient');
 const WalletSchema = require("./schemas/WalletSchema");
