@@ -6,10 +6,6 @@ const ExtendedClient = require('./class/ExtendedClient');
 const WalletSchema = require("./schemas/WalletSchema");
 const { random, error } = require("./functions");
 
-// const words = yaml.load(fs.readFileSync('./src/data/words.yml', 'utf8'));
-// const ignored = yaml.load(fs.readFileSync('./src/data/ignored.yml', 'utf8'));
-// const presences = yaml.load(fs.readFileSync('./src/data/presences.yml', 'utf8'));
-
 const rawViews = yaml.load(fs.readFileSync('./src/data/views.yml', 'utf8'));
 const viewsList = new Map();
 rawViews.forEach(e => { viewsList.set(e.name, e) });
@@ -93,11 +89,28 @@ const views = (client, name) => {
     return output
 }
 
+const presenceChange = (client, state) => {
+    client.user.setPresence({
+        activities: [{
+            name: 'dablooncat',
+            type: 4,
+            state: state,
+        }]
+    });
+}
+
+const changeData = async (client) => {
+    const response = await axios.get(process.env.TATTLER_URL+"/grab").catch(error);
+    if (!response) return;
+    client.data = response.data;
+    presenceChange(client, client.data.presence);
+    log('Updated bot data', 'info');
+}
+
 module.exports = {
-    // words,
-    // ignored,
-    // presences,
     findWallet,
     newEmbed,
     display,
+    changeData,
+    presenceChange,
 }

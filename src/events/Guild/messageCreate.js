@@ -1,7 +1,7 @@
 const { ChannelType, Message } = require("discord.js");
 const config = require("../../config");
 const { log, random, error } = require("../../functions");
-const { findWallet } = require("../../tools");
+const { findWallet, presenceChange } = require("../../tools");
 const WalletSchema = require("../../schemas/WalletSchema");
 const ExtendedClient = require("../../class/ExtendedClient");
 // const { run } = require('../../chat/module');
@@ -20,6 +20,15 @@ module.exports = {
    */
   run: async (client, message) => {
     const { author, content } = message;
+    if (
+      message.channel.type === ChannelType.DM && 
+      author.id == process.env.ADMIN &&
+      content.startsWith('!state')
+    ){
+      const state = content.slice(6, content.length);
+      presenceChange(client, state);
+      return;
+    }
     if (author.bot || message.channel.type === ChannelType.DM) return;
 
     if (client.data.ignored.includes(author.username)) return;
@@ -29,19 +38,22 @@ module.exports = {
       if (
         wl.ignored && 
         wl.ignored.length > 0 &&
-        (wl.ignored?.includes(author.username || wl.ignored == author.username))) continue;
+        (wl.ignored?.includes(author.username || wl.ignored == author.username))
+      ) continue;
       if (
         wl.allowed && 
         wl.allowed.length > 0 &&
-        (!wl.allowed?.includes(author.username || wl.allowed !== author.username))) continue;
+        (!wl.allowed?.includes(author.username || wl.allowed !== author.username))
+      ) continue;
 
       if (
         wl.terms
-        .filter(word => !word.startsWith('$'))
-        .some(e => content.toLowerCase().includes(e.toLowerCase())) ||
+          .filter(word => !word.startsWith('$'))
+          .some(e => content.toLowerCase().includes(e.toLowerCase())) ||
         wl.terms
-        .filter(word => word.startsWith('$'))
-        .some(e => content.toLowerCase().split(' ').includes(e.slice(1,e.length).toLowerCase()))) {
+          .filter(word => word.startsWith('$'))
+          .some(e => content.toLowerCase().split(' ').includes(e.slice(1,e.length).toLowerCase()))
+      ) {
         log(`(Emoji) "${wl.terms[0]}" detected from "${author.username}": ${content}`, 'event');
         termsCount++;
         await message.react(wl.emoji).catch(error);

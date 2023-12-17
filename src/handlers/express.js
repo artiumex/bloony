@@ -1,6 +1,6 @@
 const { log } = require('../functions');
+const { changeData, presenceChange } = require('../tools');
 const ExtendedClient = require('../class/ExtendedClient');
-const data = require('../jobs/data');
 
 const express = require("express");
 const app = express();
@@ -10,6 +10,8 @@ const app = express();
  * @param {ExtendedClient} client 
  */
 module.exports = (client) => {
+    changeData(client);
+
     app.listen(process.env.SERVERPORT, () => {
         log("Server running on port " + process.env.SERVERPORT, 'done');
     });
@@ -19,7 +21,7 @@ module.exports = (client) => {
     });
 
     app.get('/updated', async (req, res) => {
-        await data.run(client);
+        await changeData(client);
         res.json({ noted: true });
     });
 }
