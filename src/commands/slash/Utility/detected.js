@@ -14,7 +14,7 @@ module.exports = {
      * @param {ChatInputCommandInteraction} interaction 
      */
     run: async (client, interaction) => {
-        const sticker = client.stickers.cache.get(1180054302077767770);
+        const sticker = client.guilds.cache.get("781397300647559188").stickers.cache.filter(s => s.id === "1180054302077767770");
         await interaction.reply({
             stickers: sticker,
         });
