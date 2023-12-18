@@ -10,6 +10,7 @@ playground.js
 
 # DO NOT REMOVE THESE FOR SECURITY
 .env
-dablooncat.env
+*.env
 branchupdates.txt
 .SynologyWorkingDirectory
+.gitignore
