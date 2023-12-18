@@ -48,7 +48,7 @@ module.exports = {
               : "You are not authorized to use this command",
           ephemeral: true,
         });
-        log(`(Ignored) ${interaction.user.username} attempted a command`, 'info');
+        log(`(Ignored) ${interaction.user.username} attempted a command`, 'warn');
         return;
       }
 

@@ -90,7 +90,7 @@ const views = (client, name) => {
     return output
 }
 
-const presenceChange = (client, state) => {
+const presenceChange = async (client, state) => {
     client.user.setPresence({
         activities: [{
             name: 'dablooncat',
