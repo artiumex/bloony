@@ -104,7 +104,7 @@ const changeData = async (client) => {
     const response = await axios.get(process.env.TATTLER_URL+"/grab").catch(error);
     if (!response) return;
     client.data = response.data;
-    presenceChange(client, client.data.presence);
+    if (client.data.change_status) presenceChange(client, client.data.presence);
     log('Updated bot data', 'info');
 }
 
