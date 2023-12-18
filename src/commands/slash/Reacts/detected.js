@@ -1,4 +1,4 @@
-const { ChatInputCommandInteraction, SlashCommandBuilder } = require('discord.js');
+const { ChatInputCommandInteraction, SlashCommandBuilder, AttachmentBuilder } = require('discord.js');
 const ExtendedClient = require('../../../class/ExtendedClient');
 const { log } = require('../../../functions');
 
@@ -14,11 +14,9 @@ module.exports = {
      * @param {ChatInputCommandInteraction} interaction 
      */
     run: async (client, interaction) => {
-        const sticker = client.guilds.cache.get("781397300647559188").stickers.cache.filter(s => s.id === "1180054302077767770");
+        const image = new AttachmentBuilder('./src/data/images/co-detected.jpg').setDescription("Carbon Monoxide Detected!");
         await interaction.reply({
-            stickers: sticker,
+            files: [image],
         });
-
     }
 };
-//1180054302077767770
