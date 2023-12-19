@@ -1,5 +1,6 @@
 const chalk = require("chalk");
 const axios = require('axios');
+const fs = require('fs');
 
 /**
  * Logs a message with optional styling.
@@ -9,15 +10,16 @@ const axios = require('axios');
  */
 const log = (string, style) => {
   const styles = {
-    info: { prefix: chalk.blue("[INFO]"), logFunction: console.log },
-    err: { prefix: chalk.red("[ERROR]"), logFunction: console.error },
-    warn: { prefix: chalk.yellow("[WARNING]"), logFunction: console.warn },
-    done: { prefix: chalk.green("[SUCCESS]"), logFunction: console.log },
-    event: { prefix: chalk.magenta("[EVENT]"), logFunction: console.log },
+    info: { prefix: "[INFO]", logFunction: console.log, hex: "#add8e6" },
+    err: { prefix: "[ERROR]", logFunction: console.error, hex: "#ff0000" },
+    warn: { prefix: "[WARNING]", logFunction: console.warn, hex: "#ffff00" },
+    done: { prefix: "[SUCCESS]", logFunction: console.log, hex: "#90ee90" },
+    event: { prefix: "[EVENT]", logFunction: console.log, hex: "#ea00ff" },
   };
 
   const selectedStyle = styles[style] || { logFunction: console.log };
-  selectedStyle.logFunction(`${selectedStyle.prefix || ""} ${string}`);
+  fs.appendFileSync('./src/logs/latest.log', `${selectedStyle.prefix || ""} ${string}\n`, error);
+  selectedStyle.logFunction(`${chalk.hex(selectedStyle.hex || "#ffffff")(selectedStyle.prefix) || ""} ${string}`);
 };
 
 const error = (err) => {

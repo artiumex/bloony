@@ -127,7 +127,6 @@ const changeData = async (client) => {
         ignored: ignored.map(e => { if (e.enabled) return e.userid }),
     };
     client.data = output;
-    console.log(output);
     if (client.data.change_status) presenceChange(client, client.data.presence);
     log('Updated bot data', 'info');
 }
