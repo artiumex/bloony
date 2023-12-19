@@ -11,7 +11,7 @@ const jobs = require("../handlers/jobs");
 const express = require('../handlers/express');
 
 const { log, error } = require('../functions');
-const logger = require("../handlers/logger");
+// const logger = require("../handlers/logger");
 
 module.exports = class extends Client {
     collection = {
@@ -103,7 +103,7 @@ module.exports = class extends Client {
     }
 
     start = async () => {
-        logger();
+        // logger();
         commands(this);
         events(this);
         components(this);

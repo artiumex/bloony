@@ -1,6 +1,6 @@
 const chalk = require("chalk");
 const axios = require('axios');
-const fs = require('fs');
+// const fs = require('fs');
 
 /**
  * Logs a message with optional styling.
@@ -18,7 +18,7 @@ const log = (string, style) => {
   };
 
   const selectedStyle = styles[style] || { logFunction: console.log };
-  fs.appendFileSync('./src/logs/latest.log', `${selectedStyle.prefix || ""} ${string}\n`, error);
+  // fs.appendFileSync('./src/logs/latest.log', `${selectedStyle.prefix || ""} ${string}\n`, error);
   selectedStyle.logFunction(`${chalk.hex(selectedStyle.hex || "#ffffff")(selectedStyle.prefix) || ""} ${string}`);
 };
 
