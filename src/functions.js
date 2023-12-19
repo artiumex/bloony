@@ -1,4 +1,5 @@
 const chalk = require("chalk");
+const axios = require('axios');
 
 /**
  * Logs a message with optional styling.
@@ -48,9 +49,14 @@ const random = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+const pingCat = () => {
+  axios.get('http://127.0.0.1:' + process.env.SERVERPORT + '/updated');
+}
+
 module.exports = {
   log,
   error,
   time,
   random,
+  pingCat,
 };

@@ -1,11 +1,15 @@
 const yaml = require('js-yaml');
 const fs = require('fs');
 const { bold, EmbedBuilder } = require('discord.js');
-const axios = require('axios');
 
 const ExtendedClient = require('./class/ExtendedClient');
 const WalletSchema = require("./schemas/WalletSchema");
 const { random, error, log } = require("./functions");
+
+const Words = require('./schemas/WordsSchema');
+const Statuses = require('./schemas/StatusSchema');
+const Ignored = require('./schemas/IgnoredSchema');
+const Bot = require('./schemas/BotSettingsSchema');
 
 const rawViews = yaml.load(fs.readFileSync('./src/data/views.yml', 'utf8'));
 const viewsList = new Map();
@@ -101,9 +105,29 @@ const presenceChange = async (client, state) => {
 }
 
 const changeData = async (client) => {
-    const response = await axios.get(process.env.TATTLER_URL+"/grab").catch(error);
-    if (!response) return;
-    client.data = response.data;
+    const words = await Words.find({});
+    const ignored = await Ignored.find({});
+    const status = await Statuses.find({});
+    const settings = await Bot.find({ botid: process.env.DISCORD_BOTID });
+
+    const ss = status.map(e => { if (e.enabled) return e.phrase });
+    
+    const output = {
+        words: words.map(e => {
+            const output = {
+                emoji: e.emoji,
+                terms: e.terms,
+            }
+            if (e.allowed.length > 0) output.allowed = e.allowed;
+            if (e.ignored.length > 0) output.ignored = e.ignored;
+            return output
+        }),
+        presence: ss[random(0, ss.length-1)],
+        change_status: settings.change_status,
+        ignored: ignored.map(e => { if (e.enabled) return e.userid }),
+    };
+    client.data = output;
+    console.log(output);
     if (client.data.change_status) presenceChange(client, client.data.presence);
     log('Updated bot data', 'info');
 }
