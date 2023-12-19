@@ -94,6 +94,10 @@ const views = (client, name) => {
     return output
 }
 
+/**
+ * 
+ * @param {ExtendedClient} client 
+ */
 const presenceChange = async (client, state) => {
     client.user.setPresence({
         activities: [{
@@ -104,6 +108,10 @@ const presenceChange = async (client, state) => {
     });
 }
 
+/**
+ * 
+ * @param {ExtendedClient} client 
+ */
 const changeData = async (client) => {
     const words = await Words.find({});
     const ignored = await Ignored.find({});

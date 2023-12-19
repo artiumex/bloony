@@ -3,8 +3,6 @@ const ExtendedClient = require('./class/ExtendedClient');
 
 const client = new ExtendedClient();
 
-console.log("WOWIE");
-
 client.start();
 
 // Handles errors and avoids crashes, better to not remove them.
