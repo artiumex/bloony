@@ -108,7 +108,7 @@ const changeData = async (client) => {
     const words = await Words.find({});
     const ignored = await Ignored.find({});
     const status = await Statuses.find({});
-    const settings = await Bot.find({ botid: process.env.DISCORD_BOTID });
+    const settings = await Bot.findOne({ botid: process.env.DISCORD_BOTID });
 
     const ss = status.map(e => { if (e.enabled) return e.phrase });
     
