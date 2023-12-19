@@ -24,4 +24,8 @@ module.exports = (client) => {
         await changeData(client);
         res.json({ noted: true });
     });
+
+    app.get('/log', function(req, res, next) {
+        res.sendFile('latest.log', { root: './src/logs' });
+      });
 }
