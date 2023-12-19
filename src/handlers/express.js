@@ -17,7 +17,7 @@ module.exports = (client) => {
     });
 
     app.get('/grab', (req, res, next) => {
-        res.json({ status: client.user.presence.activities[0].state });
+        res.json(client.data);
     });
 
     app.get('/updated', async (req, res) => {
