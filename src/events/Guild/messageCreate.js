@@ -8,8 +8,6 @@ const ExtendedClient = require("../../class/ExtendedClient");
 
 const cooldown = new Map();
 
-const exch_rate = 50;
-
 module.exports = {
   event: "messageCreate",
   /**
@@ -60,8 +58,9 @@ module.exports = {
       output = random(1,5);
     }
 
+    const exch_rate = client.data.jwl2bln;
     if (output > 0) {
-      const Wallet = await findWallet(author.id).catch(error);
+      const Wallet = await findWallet(author);
       Wallet.bloons += Math.floor((Wallet.jewels + output) / exch_rate);
       Wallet.jewels += output - (exch_rate * Math.floor((Wallet.jewels + output) / exch_rate));
       await Wallet.save().catch(error);

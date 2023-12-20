@@ -14,6 +14,10 @@ const schema = new Schema({
         type: Boolean,
         required: true
     },
+    jwl2bln: {
+        type: Number,
+        required: true
+    },
 });
 
 const newmodel = model('BotSettingsSchema', schema);

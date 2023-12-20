@@ -1,11 +1,11 @@
+const { bold, EmbedBuilder, User } = require('discord.js');
 const yaml = require('js-yaml');
 const fs = require('fs');
-const { bold, EmbedBuilder } = require('discord.js');
 
 const ExtendedClient = require('./class/ExtendedClient');
-const WalletSchema = require("./schemas/WalletSchema");
 const { random, error, log } = require("./functions");
 
+const Wallet = require("./schemas/WalletSchema");
 const Words = require('./schemas/WordsSchema');
 const Statuses = require('./schemas/StatusSchema');
 const Ignored = require('./schemas/IgnoredSchema');
@@ -19,22 +19,16 @@ rawViews.forEach(e => { viewsList.set(e.name, e) });
  * Finds the wallet of a given User ID
  * Creates one if it doesn't exist
  * 
- * @param {string} id - The ID of the User
+ * @param {User} user - The User object of the User
  * @returns The Schema of a User
  */
-const findWallet = async id => {
-    let Wallet;
-    try {
-        Wallet = await WalletSchema.findOne({ userid: id });
-        if (!Wallet) Wallet = new WalletSchema({
-            userid: id,
-        });
-    } catch {
-        Wallet = new WalletSchema({
-        userid: id,
-        }).catch(error);
-    }
-    return Wallet
+const findWallet = async (user) => {
+    let wallet = await Wallet.findOne({ userid: user.id }).catch(error);
+    if (!wallet || wallet == null) wallet = new Wallet({
+        userid: user.id,
+        username: user.username,
+    }).catch(error);
+    return wallet
 }
 
 /**
@@ -60,14 +54,13 @@ const newEmbed = (title, desc, color) => {
  * Returns the display data for a wallet or Wallets
  * 
  * @param {ExtendedClient} client 
- * @param {Object | Object[]} Wallet - the Wallet(s) to display
+ * @param {Object | Object[]} wallet - the Wallet(s) to display
  * @return {Object | Object[]} - the display(s)
  */
-const display = async (client, Wallet) => {
-    const isArray = Array.isArray(Wallet);
-    const list = isArray ? Wallet : [Wallet];
+const display = async (client, wallet) => {
+    const isArray = Array.isArray(wallet);
     var output = [];
-    for (const w of list) {
+    for (const w of (isArray ? wallet : [wallet])) {
         const user = await client.users.cache.get(w.userid);
         output.push({
             name: bold(user.username),
@@ -134,6 +127,7 @@ const changeData = async (client) => {
         presence: ss[random(0, ss.length-1)],
         change_status: settings.change_status,
         ignored: ignored.map(e => { if (e.enabled) return e.userid }),
+        jwl2bln: settings.jwl2bln,
     };
     client.data = output;
     if (client.data.change_status) presenceChange(client, client.data.presence);

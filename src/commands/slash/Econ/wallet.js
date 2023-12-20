@@ -15,7 +15,7 @@ module.exports = {
     run: async (client, interaction) => {
         await interaction.deferReply();
 
-        const Wallet = await findWallet(interaction.user.id);
+        const Wallet = await findWallet(interaction.user);
         const w = await display(client, Wallet);
         const embed = newEmbed(
             `${w.name}'s Wallet`,

@@ -24,7 +24,7 @@ module.exports = {
         
         const embed = newEmbed(
             'Leaderboard',
-            (await display(client, lb)).map(e => `${e.name}: ${e.bloons.view}`).join('\n'),
+            (await display(client, lb)).map((e, i) => `${i+1}. ${e.name}:\n${e.bloons.view}\n${e.jewels.view}`).join('\n'),
             'blue'
         );
         await interaction.editReply({ embeds: [embed] });
