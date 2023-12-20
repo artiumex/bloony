@@ -45,7 +45,7 @@ module.exports = {
           .some(e => content.toLowerCase().split(' ').includes(e.slice(1,e.length).toLowerCase()))
       ) {
         log(`(Emoji) "${wl.terms[0]}" detected from "${author.username}": ${content}`, 'event');
-        termsCount++;
+        if (wl.awardable) termsCount++;
         await message.react(wl.emoji).catch(error);
       } 
     }

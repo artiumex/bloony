@@ -125,6 +125,7 @@ const changeData = async (client) => {
             const output = {
                 emoji: e.emoji,
                 terms: e.terms,
+                awardable: e.awardable || false,
             }
             if (e.allowed.length > 0) output.allowed = e.allowed;
             if (e.ignored.length > 0) output.ignored = e.ignored;

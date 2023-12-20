@@ -22,6 +22,10 @@ const schema = new Schema({
         type: [String],
         required: false
     },
+    awardable: {
+        type: Boolean,
+        required: false
+    },
 });
 
 const newmodel = model('WordsSchema', schema);
