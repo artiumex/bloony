@@ -12,9 +12,9 @@ module.exports = {
 
         const value = interaction.values[0];
         
-        await interaction.reply({
-            content: `You have selected from the menu: **${value}**`,
-            ephemeral: true
+        await interaction.update({
+            content: `You have selected from the menu: **${value}**. Index: ${interaction.index}`,
+            components: [],
         });
 
     }

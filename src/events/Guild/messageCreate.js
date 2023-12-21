@@ -1,12 +1,9 @@
 const { ChannelType, Message } = require("discord.js");
-const config = require("../../config");
+const ExtendedClient = require("../../class/ExtendedClient");
+
 const { log, random, error } = require("../../functions");
 const { findWallet } = require("../../tools");
-const WalletSchema = require("../../schemas/WalletSchema");
-const ExtendedClient = require("../../class/ExtendedClient");
 const { chat } = require('../../chat/module');
-
-const cooldown = new Map();
 
 module.exports = {
   event: "messageCreate",

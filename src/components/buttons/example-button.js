@@ -10,9 +10,9 @@ module.exports = {
      */
     run: async (client, interaction) => {
 
-        await interaction.reply({
-            content: 'The button has been successfully responded!',
-            ephemeral: true
+        await interaction.update({
+            content: `The button has been successfully responded! Index: ${interaction.index}`,
+            components: [],
         });
 
     }
