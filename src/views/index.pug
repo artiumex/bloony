@@ -6,7 +6,7 @@ block content
   p Change Status? : #{cdata.change_status}
   p Ignored Users: #{cdata.ignored.join(', ')}
   p Jewels to Bloons Conversion Ratio is #[strong #{cdata.jwl2bln}:1]
-  h1 Words:
+  h1 #{cdata.words.length} Reacts:
   p ----
   each wl in cdata.words
     p Emoji: #{wl.emoji}

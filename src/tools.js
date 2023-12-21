@@ -92,6 +92,7 @@ const views = (client, name) => {
  * @param {ExtendedClient} client 
  */
 const presenceChange = async (client, state) => {
+    client.data.presence = state;
     client.user.setPresence({
         activities: [{
             name: 'dablooncat',
