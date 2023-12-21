@@ -7,11 +7,10 @@ const deploy = require("../handlers/deploy");
 const mongoose = require("../handlers/mongoose");
 const components = require("../handlers/components");
 const jobs = require("../handlers/jobs");
-// const chats = require('../chat/module');
+const chats = require('../chat/module');
 const express = require('../handlers/express');
 
 const { log, error } = require('../functions');
-// const logger = require("../handlers/logger");
 
 module.exports = class extends Client {
     collection = {
@@ -103,7 +102,6 @@ module.exports = class extends Client {
     }
 
     start = async () => {
-        // logger();
         commands(this);
         events(this);
         components(this);
@@ -114,7 +112,7 @@ module.exports = class extends Client {
 
         if (config.handler.deploy) await deploy(this, config);
         jobs(this);
-        // chats.setup(this);
+        chats.setup(this);
         express(this);
     };
 };

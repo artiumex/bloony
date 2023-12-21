@@ -18,7 +18,7 @@ const setup = async (client) => {
     log("Loaded past chats", 'info');
 }
 
-const run = async (client, message) => {
+const chat = async (client, message) => {
     if (message.author.bot) return;
 
     if (!message.content.includes(client.nickname)) return;
@@ -60,5 +60,5 @@ const run = async (client, message) => {
 
 module.exports = {
     setup,
-    run,
+    chat,
 }

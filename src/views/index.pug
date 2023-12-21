@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  h1= title
+  p Presence: #{cdata.presence}
+  p Change Status? : #{cdata.change_status}
+  p Ignored Users: #{cdata.ignored.join(', ')}
+  p Jewels to Bloons Conversion Ratio is #[strong #{cdata.jwl2bln}:1]
+  h1 Words:
+  p ----
+  each wl in cdata.words
+    p Emoji: #{wl.emoji}
+    p Earns jewels? #{wl.awardable}
+    if (wl.allowed)
+      p Allowed:
+      ul
+        each a in wl.allowed
+          li=a
+    if (wl.ignored)
+      p Ignored:
+      ul
+        each i in wl.ignored
+          li=i
+    p Terms:
+    ul
+      each term in wl.terms
+        li=term
+    p ----
