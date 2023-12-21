@@ -7,6 +7,7 @@ module.exports = {
         .setDescription('Component test.'),
     options: {
         // cooldown: 5000,
+        testing_only: true,
         developers: true,
     },
     /**
@@ -14,28 +15,19 @@ module.exports = {
      * @param {ChatInputCommandInteraction} interaction 
      */
     run: async (client, interaction) => {
-        interaction.index = 0;
+        const select_menu = new StringSelectMenuBuilder()
+            .setCustomId('example-select')
+            .setPlaceholder('Example Select menu')
+            .addOptions(
+                { label: 'Option 1', value: '0' },
+                { label: 'Option 2', value: '1' },
+                { label: 'Option 3', value: '2' },
+            );
+        select_menu.addOptions({ label: 'Option 4', value: '3' });
         await interaction.reply({
             content: 'Select one of the components below.',
             components: [
-                new ActionRowBuilder()
-                    .addComponents(
-                        new ButtonBuilder()
-                            .setCustomId('example-button')
-                            .setLabel('Example Button')
-                            .setStyle(1)
-                    ),
-                new ActionRowBuilder()
-                    .addComponents(
-                        new StringSelectMenuBuilder()
-                            .setCustomId('example-select')
-                            .setPlaceholder('Example Select menu')
-                            .addOptions(
-                                { label: 'Option 1', value: 'option 1' },
-                                { label: 'Option 2', value: 'option 2' },
-                                { label: 'Option 3', value: 'option 3' },
-                            )
-                    )
+                new ActionRowBuilder().addComponents(select_menu)
             ]
         });
     }

@@ -1,5 +1,6 @@
 const { readdirSync } = require('fs');
 const { log } = require('../functions');
+const config = require('../config');
 const ExtendedClient = require('../class/ExtendedClient');
 
 /**
@@ -13,6 +14,7 @@ module.exports = (client) => {
                 const module = require('../commands/' + type + '/' + dir + '/' + file);
 
                 if (!module) continue;
+                if (!config.handler.testing_env && module.options?.testing_only) continue;
 
                 if (type === 'prefix') {
                     if (!module.structure?.name || !module.run) {

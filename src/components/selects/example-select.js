@@ -11,9 +11,10 @@ module.exports = {
     run: async (client, interaction) => {
 
         const value = interaction.values[0];
+        const arr = ['a', 'b', 'c', 'd']
         
         await interaction.update({
-            content: `You have selected from the menu: **${value}**. Index: ${interaction.index}`,
+            content: `You have selected from the menu: **${value}**. Value: **${arr[value]}**.`,
             components: [],
         });
 

@@ -10,6 +10,7 @@ module.exports = {
     handler: {
         prefix: "Dabloon, ",
         deploy: true,
+        testing_env: process.env?.ENV_TYPE == 'testing' ? true : false,
         commands: {
             prefix: false,
             slash: true,
