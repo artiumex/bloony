@@ -33,7 +33,8 @@ module.exports = class extends Client {
     data = {
         ignored: [],
         words: [],
-        presence: config.client.presence,
+        current_status: config.client.presence,
+        status_change: false,
     };
 
     constructor() {
@@ -111,8 +112,8 @@ module.exports = class extends Client {
         await this.login(process.env.CLIENT_TOKEN || config.client.token);
 
         if (config.handler.deploy) await deploy(this, config);
-        jobs(this);
         chats.setup(this);
-        express(this);
+        await express(this);
+        jobs(this);
     };
 };

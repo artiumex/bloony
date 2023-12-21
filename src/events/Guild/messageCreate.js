@@ -1,7 +1,7 @@
 const { ChannelType, Message } = require("discord.js");
 const config = require("../../config");
 const { log, random, error } = require("../../functions");
-const { findWallet, presenceChange } = require("../../tools");
+const { findWallet } = require("../../tools");
 const WalletSchema = require("../../schemas/WalletSchema");
 const ExtendedClient = require("../../class/ExtendedClient");
 const { chat } = require('../../chat/module');

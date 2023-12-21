@@ -91,29 +91,11 @@ const views = (client, name) => {
  * 
  * @param {ExtendedClient} client 
  */
-const presenceChange = async (client, state) => {
-    client.data.presence = state;
-    client.user.setPresence({
-        activities: [{
-            name: 'dablooncat',
-            type: 4,
-            state: state,
-        }]
-    });
-}
-
-/**
- * 
- * @param {ExtendedClient} client 
- */
 const changeData = async (client) => {
     const words = await Words.find({});
     const ignored = await Ignored.find({});
-    const status = await Statuses.find({});
     const settings = await Bot.findOne({ botid: process.env.DISCORD_BOTID });
 
-    const ss = status.map(e => { if (e.enabled) return e.phrase });
-    
     const output = {
         words: words.map(e => {
             const output = {
@@ -125,13 +107,19 @@ const changeData = async (client) => {
             if (e.ignored.length > 0) output.ignored = e.ignored;
             return output
         }),
-        presence: ss[random(0, ss.length-1)],
+        current_status: settings.current_status,
         change_status: settings.change_status,
         ignored: ignored.map(e => { if (e.enabled) return e.userid }),
         jwl2bln: settings.jwl2bln,
     };
     client.data = output;
-    if (client.data.change_status) presenceChange(client, client.data.presence);
+    client.user.setPresence({
+        activities: [{
+            name: 'dablooncat',
+            type: 4,
+            state: client.data.current_status,
+        }]
+    });
     log('Updated bot data', 'info');
 }
 
@@ -140,5 +128,4 @@ module.exports = {
     newEmbed,
     display,
     changeData,
-    presenceChange,
 }

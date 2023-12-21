@@ -1,6 +1,6 @@
 const { ChatInputCommandInteraction, SlashCommandBuilder } = require('discord.js');
 const ExtendedClient = require('../../../class/ExtendedClient');
-const { presenceChange } = require('../../../tools');
+const Bot = require('../../../schemas/BotSettingsSchema');
 
 module.exports = {
     structure: new SlashCommandBuilder()
@@ -22,7 +22,7 @@ module.exports = {
     run: async (client, interaction) => {
         await interaction.deferReply();
         const status = interaction.options.getString('status');
-        await presenceChange(client, status);
+        await Bot.updateOne({ botid: client.user.id }, { current_status: status }).catch(client.nerrify);
         interaction.editReply('Successfully updated bot presence.');
         client.notify(`Manual presence update: "${status}"`, 'event');
     }

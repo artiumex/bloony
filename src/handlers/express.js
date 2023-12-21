@@ -1,13 +1,12 @@
+const ExtendedClient = require('../class/ExtendedClient');
 const { log } = require('../functions');
 const { changeData } = require('../tools');
-const ExtendedClient = require('../class/ExtendedClient');
 
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const fs = require('fs');
 
 const app = express();
 
@@ -24,9 +23,7 @@ app.use(express.static(path.join('./src', 'public')));
  * 
  * @param {ExtendedClient} client 
  */
-module.exports = (client) => {
-    changeData(client);
-
+module.exports = async (client) => {
     app.listen(process.env.SERVERPORT, () => {
         log("Server running on port " + process.env.SERVERPORT, 'done');
     });
@@ -43,4 +40,6 @@ module.exports = (client) => {
         await changeData(client);
         res.json({ noted: true });
     });
+
+    await changeData(client);
 }

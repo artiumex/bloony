@@ -1,7 +1,6 @@
 const { model, Schema } = require('mongoose');
-const { pingCat } = require('../functions');
 
-const schema = new Schema({
+module.exports = model('StatusSchema', new Schema({
     phrase: {
         type: String,
         required: true
@@ -10,9 +9,4 @@ const schema = new Schema({
         type: Boolean,
         required: true
     },
-});
-
-const newmodel = model('StatusSchema', schema);
-newmodel.watch().on('change', data => pingCat());
-
-module.exports = newmodel;
+}));

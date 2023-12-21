@@ -14,6 +14,10 @@ const schema = new Schema({
         type: Boolean,
         required: true
     },
+    current_status: {
+        type: String,
+        required: true
+    },
     jwl2bln: {
         type: Number,
         required: true
