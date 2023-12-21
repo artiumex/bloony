@@ -7,6 +7,12 @@ block content
   p Ignored Users: #{cdata.ignored.join(', ')}
   p Jewels to Bloons Conversion Ratio is #[strong #{cdata.jwl2bln}:1]
   h1 #{cdata.words.length} Reacts:
+  p full word match (between spaces). full word match terms start with "$". term must not have spaces.
+  p eg., "$ok" will react to the message "ok sure" but not "okay sure", even though "okay" contains the term "ok"
+  p all other terms that dont have the "$" prefix will match in message regardless of whether it is included as a full term
+  p eg., for the term "mg", the bot will react in the message "omg slay" because "omg" contains "mg". this is the default setting.
+  p if both allowed and ignored are defined, only ignored will be considered
+  p avoid plural words that end in 's', unless tagged as full word match
   p ----
   each wl in cdata.words
     p Emoji: #{wl.emoji}
