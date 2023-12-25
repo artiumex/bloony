@@ -7,12 +7,17 @@ const roleNames = ["system", "user", "assistant"];
 
 const setup = async (client) => {
     client.nickname = `<@${client.user.id}>`;
-    const past_msgs = yaml.load(fs.readFileSync('./src/chat/personality.yml', 'utf8')).map(e => {
-        return {
-            userid: e.id || "system",
-            content: e.text,
-        }
-    });
+    const past_msgs = [];
+    for (const msg of yaml.load(fs.readFileSync('./src/chat/personality.yml', 'utf8'))) {
+        past_msgs.push({
+            userid: msg.id || "system",
+            content: msg.text,
+        });
+        if (msg.reply) past_msgs.push({
+            userid: "assisstant",
+            content: msg.reply,
+        });
+    }
     const chats = await Chats.find({}).sort({ date: 1 });
     client.chathistory = client.chathistory.concat(past_msgs, chats);
     log("Loaded past chats", 'info');

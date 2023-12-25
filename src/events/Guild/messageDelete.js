@@ -1,4 +1,4 @@
-const { Message } = require("discord.js");
+const { Message, EmbedBuilder } = require("discord.js");
 const ExtendedClient = require("../../class/ExtendedClient");
 const axios = require("axios");
 
@@ -12,14 +12,19 @@ module.exports = {
      */
     run: async (client, message) => {
         const { author, content, attachments } = message;
+        const embeds = [new EmbedBuilder().setDescription(`In Server: \`${message.guild.name}\`\nIn Channel: \`${message.channel.name}\`\nCreated Timestamp: <t:${Math.floor(message.createdTimestamp/1000)}:f>`)];
+        const files = attachments.map(e => {
+            return `[${e.contentType}](${e.url})`
+        })
+        if (attachments.size > 0) {
+            embeds.push(new EmbedBuilder().setDescription(`Attachments: \n- ${files.join('\n- ')}`));
+        }
         const hook = {
             content: content,
-            embeds: attachments.map(e => {
-                return { image: { url: e.url } }
-            }),
+            embeds: embeds.concat(),
             username: author.username,
             avatar_url: author.displayAvatarURL(),
         };
-        axios.post(process.env.HOOK,hook);
+        axios.post(process.env.HOOK, hook);
     }
 }
