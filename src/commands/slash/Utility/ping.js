@@ -13,10 +13,8 @@ module.exports = {
      * @param {ChatInputCommandInteraction} interaction 
      */
     run: async (client, interaction) => {
-
         await interaction.reply({
             content: 'Pong! ' +  client.ws.ping
         });
-
     }
 };

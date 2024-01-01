@@ -33,7 +33,5 @@ module.exports = {
                 .catch(client.nerrify);
         }
         interaction.editReply('Successfully updated bot nickname.');
-        if (!universal) client.notify(`Manual nickname update: "${newNick}"`, 'event');
-
     }
 };

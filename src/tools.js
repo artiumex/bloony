@@ -27,7 +27,7 @@ const findWallet = async (user) => {
     if (!wallet || wallet == null) wallet = new Wallet({
         userid: user.id,
         username: user.username,
-    }).catch(error);
+    });
     return wallet
 }
 
