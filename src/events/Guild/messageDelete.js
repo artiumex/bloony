@@ -1,4 +1,4 @@
-const { Message, EmbedBuilder } = require("discord.js");
+const { ChannelType, Message, EmbedBuilder } = require("discord.js");
 const ExtendedClient = require("../../class/ExtendedClient");
 const axios = require("axios");
 
@@ -11,6 +11,7 @@ module.exports = {
      * @returns
      */
     run: async (client, message) => {
+        if (author.bot || message.channel.type === ChannelType.DM) return;
         const { author, content, attachments } = message;
         const embeds = [new EmbedBuilder().setDescription(`In Server: \`${message.guild.name}\`\nIn Channel: \`${message.channel.name}\`\nCreated Timestamp: <t:${Math.floor(message.createdTimestamp/1000)}:f>`)];
         const files = attachments.map(e => {
