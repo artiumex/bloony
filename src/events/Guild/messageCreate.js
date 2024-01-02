@@ -4,6 +4,7 @@ const ExtendedClient = require("../../class/ExtendedClient");
 const { log, random, error } = require("../../functions");
 const { findWallet } = require("../../tools");
 const { chat } = require('../../chat/module');
+const { users } = require('../../config');
 
 module.exports = {
   event: "messageCreate",
@@ -54,6 +55,8 @@ module.exports = {
       eventType = "Random";
       output = random(1,5);
     }
+
+    if (users.developers.includes(author.id)) output = Math.round(output/2);
 
     const exch_rate = client.data.jwl2bln;
     if (output > 0) {
