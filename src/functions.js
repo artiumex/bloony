@@ -55,10 +55,19 @@ const pingCat = () => {
   axios.get('http://127.0.0.1:' + process.env.SERVERPORT + '/updated');
 }
 
+const titleCase = (str) => {
+  str = str.toLowerCase().split(' ');
+  for (var i = 0; i < str.length; i++) {
+    str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1); 
+  }
+  return str.join(' ');
+}
+
 module.exports = {
   log,
   error,
   time,
   random,
   pingCat,
+  titleCase,
 };

@@ -3,30 +3,32 @@ extends layout
 block content
   h1= title
   p Presence: #{cdata.current_status}
-  p Change Status? : #{cdata.change_status}
+  p Change Status? #{cdata.change_status}
   p Ignored Users: #{cdata.ignored.join(', ')}
   p Jewels to Bloons Conversion Ratio is #[strong #{cdata.jwl2bln}:1]
   h1 #{cdata.words.length} Reacts:
-  p ----
   each wl in cdata.words
-    p Emoji: #{wl.emoji}
-    p Earns jewels? #{wl.awardable}
-    if (wl.allowed)
-      p Allowed:
+    <button type="button" class="collapsible">#{wl.name}</button>
+    <div class="content">
+      p Emoji: #{wl.emoji}
+      p Earns jewels? #{wl.awardable}
+      if (wl.allowed)
+        p Allowed:
+        ul
+          each a in wl.allowed
+            li=a
+      if (wl.ignored)
+        p Ignored:
+        ul
+          each i in wl.ignored
+            li=i
+      p Terms:
       ul
-        each a in wl.allowed
-          li=a
-    if (wl.ignored)
-      p Ignored:
-      ul
-        each i in wl.ignored
-          li=i
-    p Terms:
-    ul
-      each term in wl.terms
-        li=term
-    p ----
+        each term in wl.terms
+          li=term
+    </div>
   p full word match (between spaces). full word match terms start with "$". term must not have spaces.
   p all other terms that dont have the "$" prefix will match in message regardless of whether it is included as a full term
   p eg., for the term "mg", the bot will react in the message "omg slay" because "omg" contains "mg". this is the default setting.
   p if both allowed and ignored are defined, only ignored will be considered
+  script(src='/javascripts/collapse.js')

@@ -3,7 +3,7 @@ const yaml = require('js-yaml');
 const fs = require('fs');
 
 const ExtendedClient = require('./class/ExtendedClient');
-const { random, error, log } = require("./functions");
+const { random, error, log, titleCase } = require("./functions");
 
 const Wallet = require("./schemas/WalletSchema");
 const Words = require('./schemas/WordsSchema');
@@ -99,6 +99,7 @@ const changeData = async (client) => {
     const output = {
         words: words.map(e => {
             const output = {
+                name: titleCase(e.name),
                 emoji: e.emoji,
                 terms: e.terms,
                 awardable: e.awardable || false,

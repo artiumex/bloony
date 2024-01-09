@@ -41,5 +41,12 @@ module.exports = async (client) => {
         res.json({ noted: true });
     });
 
+    // app.post('/discord', (req, res, next) => {
+    //     console.log(req.data);
+    //     res.json({
+    //         "type": 1
+    //     });
+    // });
+
     await changeData(client);
 }
