@@ -11,8 +11,8 @@ module.exports = {
      * @returns
      */
     run: async (client, message) => {
-        if (author.bot || message.channel.type === ChannelType.DM) return;
         const { author, content, attachments } = message;
+        if (author.bot || message.channel.type === ChannelType.DM) return;
         const embeds = [new EmbedBuilder().setDescription(`In Server: \`${message.guild.name}\`\nIn Channel: \`${message.channel.name}\`\nCreated Timestamp: <t:${Math.floor(message.createdTimestamp/1000)}:f>`)];
         const files = attachments.map(e => {
             return `[${e.contentType}](${e.url})`
