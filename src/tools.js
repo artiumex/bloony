@@ -8,7 +8,7 @@ const { random, error, log, titleCase } = require("./functions");
 const Wallet = require("./schemas/WalletSchema");
 const Words = require('./schemas/WordsSchema');
 const Statuses = require('./schemas/StatusSchema');
-const Ignored = require('./schemas/IgnoredSchema');
+// const Ignored = require('./schemas/IgnoredSchema');
 const Bot = require('./schemas/BotSettingsSchema');
 
 const rawViews = yaml.load(fs.readFileSync('./src/data/views.yml', 'utf8'));
@@ -93,27 +93,21 @@ const views = (client, name) => {
  */
 const changeData = async (client) => {
     const words = await Words.find({});
-    const ignored = await Ignored.find({});
-    const settings = await Bot.findOne({ botid: process.env.DISCORD_BOTID });
+    let settings = await Bot.findOne({ botid: process.env.DISCORD_BOTID });
+    settings.words = words.map(e => {
+        const output = {
+            name: titleCase(e.name),
+            emoji: e.emoji,
+            terms: e.terms,
+            awardable: e.awardable || false,
+        }
+        if (e.allowed.length > 0) output.allowed = e.allowed;
+        if (e.ignored.length > 0) output.ignored = e.ignored;
+        return output
+    });
 
-    const output = {
-        words: words.map(e => {
-            const output = {
-                name: titleCase(e.name),
-                emoji: e.emoji,
-                terms: e.terms,
-                awardable: e.awardable || false,
-            }
-            if (e.allowed.length > 0) output.allowed = e.allowed;
-            if (e.ignored.length > 0) output.ignored = e.ignored;
-            return output
-        }),
-        current_status: settings.current_status,
-        change_status: settings.change_status,
-        ignored: ignored.map(e => { if (e.enabled) return e.userid }),
-        jwl2bln: settings.jwl2bln,
-    };
-    client.data = output;
+    client.data = settings;
+    console.log(settings);
     client.user.setPresence({
         activities: [{
             name: 'dablooncat',
