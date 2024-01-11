@@ -6,6 +6,7 @@ block content
   p Change Status? #{cdata.change_status}
   p Ignored Users: #{cdata.ignored.join(', ')}
   p Jewels to Bloons Conversion Ratio is #[strong #{cdata.jwl2bln}:1]
+  p Message React Counts Delay is #[strong #{cdata.countDelay}]
   h1 #{cdata.words.length} Reacts:
   each wl in cdata.words
     <button type="button" class="collapsible">#{wl.name}</button>

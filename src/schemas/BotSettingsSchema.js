@@ -22,6 +22,10 @@ const schema = new Schema({
         type: Number,
         required: true
     },
+    countDelay: {
+        type: Number,
+        required: true
+    },
     ignored: {
         type: Array,
         required: true

@@ -94,7 +94,7 @@ const views = (client, name) => {
 const changeData = async (client) => {
     const words = await Words.find({});
     let settings = await Bot.findOne({ botid: process.env.DISCORD_BOTID });
-    settings.words = words.map(e => {
+    settings["words"] = words.map(e => {
         const output = {
             name: titleCase(e.name),
             emoji: e.emoji,
@@ -107,7 +107,6 @@ const changeData = async (client) => {
     });
 
     client.data = settings;
-    console.log(settings);
     client.user.setPresence({
         activities: [{
             name: 'dablooncat',

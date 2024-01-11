@@ -19,6 +19,8 @@ module.exports = {
     if (author.bot || message.channel.type === ChannelType.DM) return;
     if (client.data.ignored.includes(author.username)) return;
 
+    const exch_rate = client.data.jwl2bln;
+    const delay = client.data.countDelay * 60 * 1000;
     var termsCount = 0;
     for (const wl of client.data.words) {
       if (
@@ -40,32 +42,37 @@ module.exports = {
           .filter(word => word.startsWith('$'))
           .some(e => content.toLowerCase().split(' ').includes(e.slice(1,e.length).toLowerCase()))
       ) {
-        log(`(Emoji) "${wl.terms[0]}" detected from "${author.username}": ${content}`, 'event');
+        log(`(Emoji) "${wl.name}" detected from "${author.username}": ${content}`, 'event');
         if (wl.awardable) termsCount++;
         await message.react(wl.emoji).catch(error);
       } 
     }
 
-    var output = 0;
-    let eventType = "random";
-    if (termsCount > 0) {
-      eventType = "Emoji";
-      for (var i = 0; i < termsCount; i++) output += random(0,2);
-    } else if (random(1, 10) == 10) {
-      eventType = "Random";
-      output = random(1,5);
-    }
+    
+    // chat(client, message);
+    setTimeout(async () => {
+      const reacts = message.reactions.cache
+        .map(e => e.count)
+        .reduce((a,b) => { return a + b });
+      let output = reacts;
+      let eventType = "random";
+      if (termsCount > 0) {
+        eventType = "Emoji";
+        for (var i = 0; i < termsCount; i++) output += random(0,2);
+      } else if (random(1, 10) == 10) {
+        eventType = "Random";
+        output += random(1,5);
+      } else return;
 
-    if (users.developers.includes(author.id)) output = Math.round(output/2);
+      if (users.developers.includes(author.id)) output = Math.round(output/2);
 
-    const exch_rate = client.data.jwl2bln;
-    if (output > 0) {
-      const Wallet = await findWallet(author);
-      Wallet.bloons += Math.floor((Wallet.jewels + output) / exch_rate);
-      Wallet.jewels += output - (exch_rate * Math.floor((Wallet.jewels + output) / exch_rate));
-      await Wallet.save().catch(error);
-      log(`(${eventType}) Added ${output} jewels to ${author.username}'s wallet. They now have ${Wallet.jewels} jewels.`,'event');
-    }
-    chat(client, message);
+      if (output > 0) {
+        const Wallet = await findWallet(author);
+        Wallet.bloons += Math.floor((Wallet.jewels + output) / exch_rate);
+        Wallet.jewels += output - (exch_rate * Math.floor((Wallet.jewels + output) / exch_rate));
+        await Wallet.save().catch(error);
+        log(`(${eventType}) Added ${output} jewels to ${author.username}'s wallet. ${reacts} of those were from reacts count. They now have ${Wallet.jewels} jewels.`,'event');
+      }
+    }, delay);
   },
 };
