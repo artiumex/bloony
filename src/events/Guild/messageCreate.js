@@ -51,11 +51,13 @@ module.exports = {
     
     // chat(client, message);
     setTimeout(async () => {
-      const reacts = message.reactions.cache
-        .map(e => e.count)
-        .reduce((a,b) => { return a + b });
-      let output = reacts;
-      let eventType = "random";
+      var output = 0, reacts = 0, eventType = "random";
+      if (message.reactions.cache.size > 0) {
+        reacts = message.reactions.cache
+          .map(e => e.count)
+          .reduce((a,b) => { return a + b });
+        output += reacts;
+      }
       if (termsCount > 0) {
         eventType = "Emoji";
         for (var i = 0; i < termsCount; i++) output += random(0,2);
