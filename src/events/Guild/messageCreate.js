@@ -61,6 +61,8 @@ module.exports = {
       if (termsCount > 0) {
         eventType = "Emoji";
         for (var i = 0; i < termsCount; i++) output += random(0,2);
+      } else if (reacts > 0) {
+        eventType = "Reacts";
       } else if (random(1, 10) == 10) {
         eventType = "Random";
         output += random(1,5);
