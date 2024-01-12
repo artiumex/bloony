@@ -76,7 +76,7 @@ const peekText = (text, terms, b = 8) => {
     const ts = text.search(term);
     const start = (ts - b) < 0 ? 0 : ts - b;
     const end =  (ts + term.length + b) > text.length ? text.length : ts + term.length + b;
-    return `${start == 0 ? "" : "..."}${text.slice(start, end).trim().replace(term, `{${term.toUpperCase()}}`)}${end == text.length ? "" : "..."}`;
+    return `${start == 0 ? "" : "..."}${text.slice(start, end).trim().toLowerCase().replace(term, `{${term}}`)}${end == text.length ? "" : "..."}`;
   }
   return 'ERROR no text found';
 }
