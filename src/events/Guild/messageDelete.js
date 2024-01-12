@@ -16,7 +16,8 @@ module.exports = {
         const embeds = [new EmbedBuilder().setDescription(`In Server: \`${message.guild.name}\`\nIn Channel: \`${message.channel.name}\`\nCreated Timestamp: <t:${Math.floor(message.createdTimestamp/1000)}:f>`)];
         const files = attachments.map(e => {
             return `[${e.contentType}](${e.url})`
-        })
+        });
+        console.log(attachments);
         if (attachments.size > 0) {
             embeds.push(new EmbedBuilder().setDescription(`Attachments: \n- ${files.join('\n- ')}`));
         }

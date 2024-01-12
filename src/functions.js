@@ -63,6 +63,24 @@ const titleCase = (str) => {
   return str.join(' ');
 }
 
+/**
+ * 
+ * @param {String} text - The text that contains terms
+ * @param {Array || String} terms - The term or terms to find in the text
+ * @param {Number} b - The buffer, how many characters on each side of the term to show
+ * @returns 
+ */
+const peekText = (text, terms, b = 8) => {
+  for (const t of Array.isArray(terms) ? terms : [terms]) {
+    let term = t.startsWith('$') ? t.slice(1) : t;
+    const ts = text.search(term);
+    const start = (ts - b) < 0 ? 0 : ts - b;
+    const end =  (ts + term.length + b) > text.length ? text.length : ts + term.length + b;
+    return `${start == 0 ? "" : "..."}${text.slice(start, end).trim().replace(term, `{${term.toUpperCase()}}`)}${end == text.length ? "" : "..."}`;
+  }
+  return 'ERROR no text found';
+}
+
 module.exports = {
   log,
   error,
@@ -70,4 +88,5 @@ module.exports = {
   random,
   pingCat,
   titleCase,
+  peekText,
 };
