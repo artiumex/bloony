@@ -72,11 +72,10 @@ const titleCase = (str) => {
  */
 const peekText = (text, terms, b = 8) => {
   for (const t of Array.isArray(terms) ? terms : [terms]) {
-    let term = t.startsWith('$') ? t.slice(1) : t;
-    const ts = text.search(term);
-    const start = (ts - b) < 0 ? 0 : ts - b;
-    const end =  (ts + term.length + b) > text.length ? text.length : ts + term.length + b;
-    return `${start == 0 ? "" : "..."}${text.slice(start, end).trim().toLowerCase().replace(term, `{${term}}`)}${end == text.length ? "" : "..."}`;
+    const term = t.startsWith('$') ? t.slice(1) : t, ts = text.toLowerCase().search(term);
+    if (ts == -1) continue;
+    const start = (ts - b) < 0 ? 0 : ts - b, end =  (ts + term.length + b) > text.length ? text.length : ts + term.length + b;
+    return [start == 0 ? "" : "...", text.slice(start, end).trim(), end == text.length ? "" : "..."].join('');
   }
   return 'ERROR no text found';
 }
