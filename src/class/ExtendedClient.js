@@ -11,6 +11,9 @@ const chats = require('../chat/module');
 const express = require('../handlers/express');
 
 const { log, error } = require('../functions');
+const backlogjob = require('../jobs/backlogger');
+const dayjs = require("dayjs");
+const axios = require("axios");
 
 module.exports = class extends Client {
     collection = {
@@ -24,6 +27,8 @@ module.exports = class extends Client {
         },
     };
     applicationcommandsArray = [];
+    backlogs = [{ msg: "Bot Started", style: "done", time: dayjs() }];
+
     chathistory = [];
     openai = new OpenAI({
         apiKey: process.env.API_KEY,
@@ -36,7 +41,7 @@ module.exports = class extends Client {
         current_status: config.client.presence,
         status_change: false,
     };
-
+    
     constructor() {
         super({
             intents: [Object.keys(GatewayIntentBits)],
@@ -51,21 +56,23 @@ module.exports = class extends Client {
         });
     };
 
+    sendHook = async (hookData) => {
+        axios.post(process.env.HOOK, hookData);
+    }
+    forceNotify = () => {
+        backlogjob.run(this);
+    }
+
     /**
      * Sends notification to the defined admin. 
-     * @param {string} msg 
-     * @param {'info' | 'err' | 'done' | 'event'} style 
+     * @param {string} msg - the message
+     * @param {'info' | 'err' | 'done' | 'event'} style - Message style
      */
-    notify = async (msg, style) => {
-        const styles = {
-            info: { prefix: ":grey_exclamation:", title: "INFO" },
-            err: { prefix: ":rotating_light:", title: "ERROR" },
-            done: { prefix: ":white_check_mark:", title: "SUCCESS" },
-            event: { prefix: ":tada:", title: "EVENT" },
-        };
-        const selectedStyle = styles[style] || { prefix: ":pensive:", title: "UNKNOWN" };
-        this.users.cache.find(u => u.id == process.env.ADMIN).send(`${selectedStyle.prefix} [${selectedStyle.title}] ${selectedStyle.prefix}\n\`\`\`${msg}\`\`\``).catch(error);
+    notify = (msg, style) => {
+        log(msg, style);
+        this.backlogs.push({ msg: msg, style: style, time: dayjs() });
     }
+
     /**
      * Logs the error and notifies the admin of said error.
      * Can be called in a "catch" function.
@@ -74,6 +81,7 @@ module.exports = class extends Client {
     nerrify = (err) => {
         log(err, 'err');
         this.notify(`${err}`, 'err');
+        this.forceNotify();
     }
 
     /**
@@ -110,10 +118,10 @@ module.exports = class extends Client {
         if (config.handler.mongodb.toggle) mongoose();
 
         await this.login(process.env.CLIENT_TOKEN || config.client.token);
-
         if (config.handler.deploy) await deploy(this, config);
+        jobs(this);
+
         chats.setup(this);
         await express(this);
-        jobs(this);
     };
 };

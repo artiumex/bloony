@@ -42,7 +42,7 @@ module.exports = {
           .filter(word => word.startsWith('$'))
           .some(e => content.toLowerCase().split(' ').includes(e.slice(1,e.length).toLowerCase()))
       ) {
-        log(`(Emoji) "${wl.name}" detected from "${author.username}": ${peekText(content, wl.terms)}`, 'event');
+        client.notify(`(Emoji) "${wl.name}" detected from "${author.username}": ${peekText(content, wl.terms)}`, 'event');
         if (wl.awardable) termsCount++;
         await message.react(wl.emoji).catch(error);
       } 
@@ -75,7 +75,7 @@ module.exports = {
         Wallet.bloons += Math.floor((Wallet.jewels + output) / exch_rate);
         Wallet.jewels += output - (exch_rate * Math.floor((Wallet.jewels + output) / exch_rate));
         await Wallet.save().catch(error);
-        log(`(${eventType}) Added ${output} jewels to ${author.username}'s wallet. ${reacts} of those were from reacts count. They now have ${Wallet.jewels} jewels.`,'event');
+        client.notify(`(${eventType}) Added ${output} jewels to ${author.username}'s wallet. ${reacts} of those were from reacts count. They now have ${Wallet.jewels} jewels.`,'event');
       }
     }, delay);
   },

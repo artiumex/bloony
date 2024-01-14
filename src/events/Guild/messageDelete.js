@@ -1,7 +1,6 @@
 const { ChannelType, Message, EmbedBuilder } = require("discord.js");
 const ExtendedClient = require("../../class/ExtendedClient");
 
-const axios = require("axios");
 const fs = require('fs');
 const dayjs = require('dayjs');
 
@@ -32,13 +31,12 @@ module.exports = {
             }
             embeds.push(new EmbedBuilder().setDescription(`Attachments: \n- ${files.join('\n- ')}`));
         }
-        
-        const hook = {
+
+        client.sendHook({
             content: content,
             embeds: embeds,
             username: author.username,
             avatar_url: author.displayAvatarURL(),
-        };
-        axios.post(process.env.HOOK, hook);
+        });
     }
 }

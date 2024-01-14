@@ -6,14 +6,15 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const dayjs = require('dayjs');
+// var logger = require('morgan');
 
 const app = express();
 
 app.set('views', path.join('./src', 'views'));
 app.set('view engine', 'pug');
 
-app.use(logger('dev'));
+// app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -41,12 +42,10 @@ module.exports = async (client) => {
         res.json({ noted: true });
     });
 
-    // app.post('/discord', (req, res, next) => {
-    //     console.log(req.data);
-    //     res.json({
-    //         "type": 1
-    //     });
-    // });
+    app.get('/log', async (req, res) => {
+        await client.forceNotify();
+        res.send(`Updated log at ${dayjs().format()}`);
+    });
 
     await changeData(client);
 }
