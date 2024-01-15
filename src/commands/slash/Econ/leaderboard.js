@@ -1,6 +1,6 @@
-const { ChatInputCommandInteraction, SlashCommandBuilder } = require('discord.js');
+const { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const ExtendedClient = require('../../../class/ExtendedClient');
-const { newEmbed, display } = require('../../../tools');
+const { display } = require('../../../tools');
 const WalletSchema = require('../../../schemas/WalletSchema');
 
 module.exports = {
@@ -14,19 +14,16 @@ module.exports = {
     run: async (client, interaction) => {
         await interaction.deferReply();
 
-        let lb = (await WalletSchema.find({}).sort({ bloons: 'desc' })).slice(0,3);
-        if (lb.length < 3) {
-            interaction.reply({
-                content: `There are not enough players to form a leaderboard!`
-            });
-            return;
-        }
+        const wallets = await WalletSchema.find({}).sort({ bloons: 'desc' });
+        if (wallets.length < 3) return interaction.reply({
+            content: `There are not enough players to form a leaderboard!`
+        });
         
-        const embed = newEmbed(
-            'Leaderboard',
-            (await display(client, lb)).map((e, i) => `${i+1}. ${e.name}:\n${e.bloons.view}\n${e.jewels.view}`).join('\n'),
-            'blue'
-        );
+        const lb = display(client, wallets.slice(0,3));
+        const embed = new EmbedBuilder()
+            .setColor('Random')
+            .setDescription(lb.map((e, i) => `${i+1}. ${e.name}:\n${e.bloons.view}\n${e.jewels.view}`).join('\n'))
+        
         await interaction.editReply({ embeds: [embed] });
     }
 };

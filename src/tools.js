@@ -57,14 +57,13 @@ const newEmbed = (title, desc, color) => {
  * @param {Object | Object[]} wallet - the Wallet(s) to display
  * @return {Object | Object[]} - the display(s)
  */
-const display = async (client, wallet) => {
+const display = (client, wallet) => {
     const isArray = Array.isArray(wallet);
     var output = [];
     for (const w of (isArray ? wallet : [wallet])) {
-        const user = await client.users.cache.get(w.userid);
+        let user = client.users.cache.get(w.userid) ?? { username: "????", id: '0' };
         output.push({
             name: bold(user.username),
-            userid: w.userid,
             user: user,
             jewels: {
                 amount: w.jewels,
@@ -76,6 +75,7 @@ const display = async (client, wallet) => {
             },
         });
     }
+    console.log(output);
     return isArray ? output : output[0];
 } 
 
