@@ -30,6 +30,23 @@ const schema = new Schema({
         type: Array,
         required: true
     },
+    mm: {
+        reacts: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
+        dadcat: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
+        chat: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
+    }
 });
 
 const newmodel = model('BotSettingsSchema', schema);

@@ -19,22 +19,23 @@ module.exports = {
             err: { prefix: ":rotating_light:", title: "ERROR" },
             done: { prefix: ":white_check_mark:", title: "SUCCESS" },
             event: { prefix: ":tada:", title: "EVENT" },
+            r_reacts: { prefix: ":grin:", title: "Reacts Count", lr: '(TITLE)' },
+            r_random: { prefix: ":zany_face:", title: "Reacts Random", lr: '(TITLE)' },
+            r_detect: { prefix: ":mag:", title: "Emoji Detected", lr: '(TITLE)' },
         };
         const embeds = [];
         for (const group of Array.from({ length: Math.ceil(logs.length / size) }, (v, i) => logs.slice(i * size, i * size + size))) {
             embeds.push(new EmbedBuilder()
-            // .setTitle("Event Group")
             .setFields(group.map(e => {
-                const selectedStyle = styles[e.style] || { prefix: ":pensive:", title: "UNKNOWN" };
-                // return 
+                const s_style = styles[e.style] || { prefix: ":pensive:", title: "UNKNOWN" };
                 return {
-                    name: `${selectedStyle.prefix} [${selectedStyle.title}] ${selectedStyle.prefix}`,
+                    name: `${s_style.prefix} ${(s_style.lr ?? '[TITLE]').replace('TITLE',s_style.title)} ${s_style.prefix}`,
                     value: `\`\`\`${e.msg}\`\`\`\n\`${e.time.format('MMM D YYYY, HH:mm:ss a')}\``
                 }
             })));
         }
         client.channels.cache.get(process.env.EVENT_CHANNEL).send({
-            content: `Logs as of ${dayjs().format('MMM D YYYY, HH:mm:ss a')}:`,
+            content: `Logs as of <t:${dayjs().unix()}:f>:`,
             embeds: embeds
         });
         client.backlogs = [];

@@ -66,7 +66,7 @@ module.exports = class extends Client {
     /**
      * Sends notification to the defined admin. 
      * @param {string} msg - the message
-     * @param {'info' | 'err' | 'done' | 'event'} style - Message style
+     * @param {'info' | 'err' | 'done' | 'event' | 'r_detect' | 'r_random' | 'r_reacts'} style - Message style
      */
     notify = (msg, style) => {
         log(msg, style);
