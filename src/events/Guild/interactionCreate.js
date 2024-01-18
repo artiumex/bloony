@@ -131,6 +131,7 @@ module.exports = {
                 config.messageSettings.cooldownMessage !== ""
                   ? config.messageSettings.cooldownMessage
                   : "Slow down buddy! You're too fast to use this command",
+              ephemeral: true,
             });
 
             return;

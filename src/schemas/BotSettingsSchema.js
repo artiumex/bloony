@@ -12,36 +12,46 @@ const schema = new Schema({
     },
     change_status: {
         type: Boolean,
-        required: true
+        required: true,
+        default: false,
     },
     current_status: {
         type: String,
-        required: true
+        required: true,
+        default: 'just woke :/',
     },
     jwl2bln: {
         type: Number,
-        required: true
+        required: true,
+        default: 100,
     },
     countDelay: {
         type: Number,
-        required: true
+        required: true,
+        default: 15,
     },
     ignored: {
         type: Array,
-        required: true
+        required: true,
+        default: [],
     },
-    mm: {
+    matchers: {
         reacts: {
             type: Boolean,
             required: false,
             default: false,
         },
-        dadcat: {
+        all_msg_matchers: {
+            type: Boolean,
+            required: false,
+            default: true,
+        },
+        i_am: {
             type: Boolean,
             required: false,
             default: false,
         },
-        chat: {
+        yelling: {
             type: Boolean,
             required: false,
             default: false,

@@ -19,8 +19,7 @@ module.exports = {
       client.data.ignored.includes(message.author.username)
     ) return;
 
-    if (client.data.mm.reacts) reacts(client, message);
-    if (client.data.mm.dadcat) dadcat(client, message);
-    if (client.data.mm.chat) chat(client, message);
+    if (client.data.matchers.reacts) reacts(client, message);
+    if (client.data.matchers.all_msg_matchers) dadcat(client, message);
   },
 };

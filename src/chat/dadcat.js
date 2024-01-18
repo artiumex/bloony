@@ -1,5 +1,3 @@
-const { random } = require("../functions");
-
 const IM_MATCH = /\b((?:i|l)(?:(?:'|`|‛|‘|’|′|‵)?m| am)) ([\s\S]*)/i;
 const FORMAT_MATCH = /(\*\*?\*?|``?`?|__?|~~|\|\|)+/i;
 
@@ -16,8 +14,10 @@ function volumeDown(message)  {
 }
 
 module.exports = (client, msg) => {
+    // matchers
+    const { i_am, yelling } = client.data.matchers;
     // I'm matcher
-    if ( msg.content.match(IM_MATCH)) {
+    if (i_am && msg.content.match(IM_MATCH)) {
         if (Math.random() * 10 < 8) return;
         let imMatchData = msg.content.match(IM_MATCH);
         let formattingMatchData = msg.content.match(FORMAT_MATCH);
@@ -25,7 +25,6 @@ module.exports = (client, msg) => {
         let hiContent = !formattingMatchData || formattingMatchData.index > imMatchData.index
             ? `${imMatchData[2]}`
             : `${formattingMatchData[0]}${imMatchData[2]}`;
-        console.log(nick);
         let imContent = nick ? nick : Math.random() * 100 > 99 ? 'dbaloobnycatt' : 'DabloonCat';
 
         msg.channel
@@ -35,7 +34,7 @@ module.exports = (client, msg) => {
     }
     // End I'm matcher
     // Caps matcher
-    if (volumeDown(msg.content)) {
+    if (yelling && volumeDown(msg.content)) {
         msg.channel
             .send('Keep your voice down!')
             .catch(client.nerrify);
