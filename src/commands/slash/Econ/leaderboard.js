@@ -14,7 +14,7 @@ module.exports = {
     run: async (client, interaction) => {
         await interaction.deferReply();
 
-        const wallets = await WalletSchema.find({}).sort({ bloons: 'desc' });
+        const wallets = await WalletSchema.find({}).sort({ bloons: 'desc', jewels: 'desc' });
         if (wallets.length < 3) return interaction.reply({
             content: `There are not enough players to form a leaderboard!`
         });
