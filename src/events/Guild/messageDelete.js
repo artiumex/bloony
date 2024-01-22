@@ -3,6 +3,7 @@ const ExtendedClient = require("../../class/ExtendedClient");
 
 const fs = require('fs');
 const dayjs = require('dayjs');
+const axios = require('axios');
 
 module.exports = {
     event: "messageDelete",
