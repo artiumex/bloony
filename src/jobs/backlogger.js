@@ -13,7 +13,7 @@ module.exports = {
      */
     run: async (client) => {
         if (!client.backlogs?.length > 0) return;
-        const logs = client.backlogs, size = 25;
+        const logs = client.backlogs, size = 15;
         const styles = {
             info: { prefix: ":grey_exclamation:", title: "INFO" },
             err: { prefix: ":rotating_light:", title: "ERROR" },
@@ -34,7 +34,7 @@ module.exports = {
                 }
             })));
         }
-        client.channels.cache.get(process.env.EVENT_CHANNEL).send({
+        client.channels.cache.get(/**process.env.EVENT_CHANNEL**/'1206867719622758452').send({
             content: `Logs as of <t:${dayjs().unix()}:f>:`,
             embeds: embeds
         });

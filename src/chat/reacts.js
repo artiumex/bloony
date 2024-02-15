@@ -11,12 +11,12 @@ module.exports = async (client, message) => {
       if (
         wl.ignored && 
         wl.ignored.length > 0 &&
-        (wl.ignored?.includes(author.username) || wl.ignored == author.username)
+        wl.ignored?.includes(author.username)
       ) continue;
       if (
         wl.allowed && 
         wl.allowed.length > 0 &&
-        (!wl.allowed?.includes(author.username) || wl.allowed !== author.username)
+        !wl.allowed?.includes(author.username)
       ) continue;
 
       if (

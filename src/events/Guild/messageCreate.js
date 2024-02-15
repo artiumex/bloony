@@ -4,6 +4,7 @@ const ExtendedClient = require("../../class/ExtendedClient");
 const { chat } = require('../../chat/module');
 const reacts = require('../../chat/reacts');
 const dadcat = require('../../chat/dadcat');
+const logging = require('../../chat/logging');
 
 module.exports = {
   event: "messageCreate",
@@ -14,11 +15,12 @@ module.exports = {
    * @returns
    */
   run: async (client, message) => {
-    if (message.author.bot ||
-      message.channel.type === ChannelType.DM ||
-      client.data.ignored.includes(message.author.username)
-    ) return;
-
+    if (message.author.bot || message.channel.type === ChannelType.DM) return;
+    // anyone and everyone \/
+    logging(client, message);
+      
+    if (client.data.ignored.includes(message.author.username)) return;
+    // only people not on ignore list \/
     if (client.data.matchers.reacts) reacts(client, message);
     if (client.data.matchers.all_msg_matchers) dadcat(client, message);
   },

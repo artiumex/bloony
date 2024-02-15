@@ -69,6 +69,7 @@ module.exports = class extends Client {
      * @param {'info' | 'err' | 'done' | 'event' | 'r_detect' | 'r_random' | 'r_reacts'} style - Message style
      */
     notify = (msg, style) => {
+        if (['r_detect','r_random','r_reacts'].includes(style)) style = 'event';
         log(msg, style);
         this.backlogs.push({ msg: msg, style: style, time: dayjs() });
     }

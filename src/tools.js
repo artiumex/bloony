@@ -75,7 +75,6 @@ const display = (client, wallet) => {
             },
         });
     }
-    console.log(output);
     return isArray ? output : output[0];
 } 
 
@@ -94,19 +93,25 @@ const views = (client, name) => {
 const changeData = async (client) => {
     const words = await Words.find({});
     let settings = await Bot.findOne({ botid: process.env.DISCORD_BOTID });
-    settings["words"] = words.map(e => {
+    let items = {};
+    items.words = words.map(e => {
         const output = {
             name: titleCase(e.name),
             emoji: e.emoji,
             terms: e.terms,
             awardable: e.awardable || false,
+            allowed: e.allowed || [],
+            ignored: e.ignored || [],
         }
         if (e.allowed.length > 0) output.allowed = e.allowed;
         if (e.ignored.length > 0) output.ignored = e.ignored;
         return output
     });
+    for (const x of Object.keys(settings._doc)) {
+        items[x] = settings[x];
+    }
 
-    client.data = settings;
+    client.data = items;
     client.user.setPresence({
         activities: [{
             name: 'dablooncat',

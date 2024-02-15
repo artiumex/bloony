@@ -1,27 +1,33 @@
-const { ChatInputCommandInteraction, SlashCommandBuilder } = require('discord.js');
+const { ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const ExtendedClient = require('../../../class/ExtendedClient');
 
-const { findWallet, newEmbed, display } = require('../../../tools');
-const { random } = require('../../../functions');
+const { display } = require('../../../tools');
+const WalletSchema = require('../../../schemas/WalletSchema');
 
 module.exports = {
     structure: new SlashCommandBuilder()
         .setName('wallet')
-        .setDescription('Shows your info'),
+        .setDescription('Shows your info')
+        .addUserOption(e => e
+            .setName('user')
+            .setDescription('Choose someone to see the wallet of!')
+            .setRequired(false)),
     /**
      * @param {ExtendedClient} client 
      * @param {ChatInputCommandInteraction} interaction 
      */
     run: async (client, interaction) => {
         await interaction.deferReply();
+        const chosenUser = interaction.options.getUser('user') ?? interaction.user;
 
-        const Wallet = await findWallet(interaction.user);
+        const Wallet = await WalletSchema.findOne({ userid: chosenUser.id });
+        if (!Wallet) return interaction.editReply({
+            content: `Couldn't find the selected user's Wallet!`,
+            ephemeral: true,
+        });
+
         const w = await display(client, Wallet);
-        const embed = newEmbed(
-            `${w.name}'s Wallet`,
-            `${w.bloons.view}\n${w.jewels.view}`,
-            random
-        );
+        const embed = new EmbedBuilder().setTitle(`${w.name}'s Wallet`).setDescription(`${w.bloons.view}\n${w.jewels.view}`);
         await interaction.editReply({ embeds: [embed] });
     }
 };
