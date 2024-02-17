@@ -2,11 +2,12 @@ const { model, Schema } = require('mongoose');
 
 module.exports = model('ChatSchema',
     new Schema({
-        userid: {
-            type: String,
-            required: true
+        isSystem: {
+            type: Boolean,
+            required: false,
+            default: false,
         },
-        query: {
+        prompt: {
             type: String,
             required: true
         },

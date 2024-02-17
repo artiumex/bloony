@@ -1,5 +1,4 @@
 const { Client, Partials, Collection, GatewayIntentBits } = require("discord.js");
-const OpenAI = require("openai");
 const config = require('../config');
 const commands = require("../handlers/commands");
 const events = require("../handlers/events");
@@ -29,12 +28,6 @@ module.exports = class extends Client {
     applicationcommandsArray = [];
     backlogs = [{ msg: "Bot Started", style: "done", time: dayjs() }];
 
-    chathistory = [];
-    openai = new OpenAI({
-        apiKey: process.env.API_KEY,
-        baseURL: process.env.BASE_URL,
-    });
-    nickname = config.client.nickname;
     data = {
         ignored: [],
         words: [],

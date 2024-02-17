@@ -23,5 +23,6 @@ module.exports = {
     // only people not on ignore list \/
     if (client.data.matchers.reacts) reacts(client, message);
     if (client.data.matchers.all_msg_matchers) dadcat(client, message);
+    chat(client, message);
   },
 };
