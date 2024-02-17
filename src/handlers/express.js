@@ -40,10 +40,6 @@ module.exports = async (client) => {
 
     app.get('/updated', async (req, res) => {
         await changeData(client);
-        res.json({ noted: true });
-    });
-    
-    app.get('/chats', async (req, res) => {
         await setup();
         res.json({ noted: true });
     });
