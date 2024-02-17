@@ -1,6 +1,7 @@
 const { model, Schema } = require('mongoose');
+const { pingCat } = require('../functions');
 
-module.exports = model('ChatSchema',
+const newmodel = model('ChatSchema',
     new Schema({
         isSystem: {
             type: Boolean,
@@ -21,3 +22,7 @@ module.exports = model('ChatSchema',
         },
     })
 );
+
+newmodel.watch().on('change', data => pingCat());
+
+module.exports = newmodel;
