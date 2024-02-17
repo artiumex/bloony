@@ -67,7 +67,6 @@ const chat = async (client, message) => {
             content: botResponse
         }
     ]);
-    console.log(temp_msgs);
 }
 
 module.exports = {
