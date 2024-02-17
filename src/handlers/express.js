@@ -1,7 +1,7 @@
 const ExtendedClient = require('../class/ExtendedClient');
 const { log } = require('../functions');
 const { changeData } = require('../tools');
-const { setup } = require('../chats/module');
+const { setup } = require('../chat/module');
 
 var createError = require('http-errors');
 var express = require('express');
