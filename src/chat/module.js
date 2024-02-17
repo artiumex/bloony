@@ -18,10 +18,12 @@ const openai = new OpenAI({
     reply: the response to the prompt from the assistant
 */
 
-const setup = async (client) => {
-    client.data.countDelay = 200;
+const resettemp = async () => {
     temp_msgs = [];
+    log('Reset non-persistent chats.', 'info')
+}
 
+const setup = async () => {
     let TEMPLIST = [];
     TEMPLIST.push.apply(TEMPLIST, yaml.load(fs.readFileSync('./src/chat/personality.yml', 'utf8')));
     TEMPLIST.push.apply(TEMPLIST, await Chats.find({}).sort({ date: 1 }));
@@ -38,9 +40,8 @@ const setup = async (client) => {
             }
         ])
     }
-    
-    log("Loaded past chats", 'info');
-    console.log(perm_msgs);
+
+    log("Loaded persistent chats", 'info');
 }
 
 
@@ -72,4 +73,5 @@ const chat = async (client, message) => {
 module.exports = {
     setup,
     chat,
+    resettemp,
 }
