@@ -18,7 +18,7 @@ const openai = new OpenAI({
     reply: the response to the prompt from the assistant
 */
 
-const resettemp = async () => {
+const resettemp = () => {
     temp_msgs = [];
     log('Reset non-persistent chats.', 'info')
 }
