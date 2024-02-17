@@ -1,6 +1,7 @@
 const ExtendedClient = require('../class/ExtendedClient');
 const { log } = require('../functions');
 const { changeData } = require('../tools');
+const { setup } = require('../chats/module');
 
 var createError = require('http-errors');
 var express = require('express');
@@ -39,6 +40,11 @@ module.exports = async (client) => {
 
     app.get('/updated', async (req, res) => {
         await changeData(client);
+        res.json({ noted: true });
+    });
+    
+    app.get('/chats', async (req, res) => {
+        await setup();
         res.json({ noted: true });
     });
 
