@@ -4,7 +4,7 @@ const ExtendedClient = require("../../class/ExtendedClient");
 const { chat } = require('../../chat/module');
 const reacts = require('../../chat/reacts');
 const dadcat = require('../../chat/dadcat');
-const logging = require('../../chat/logging');
+//const logging = require('../../chat/logging');
 
 module.exports = {
   event: "messageCreate",
