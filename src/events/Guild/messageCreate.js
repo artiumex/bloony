@@ -17,7 +17,7 @@ module.exports = {
   run: async (client, message) => {
     if (message.author.bot || message.channel.type === ChannelType.DM) return;
     // anyone and everyone \/
-    logging(client, message);
+    //logging(client, message);
       
     if (client.data.ignored.includes(message.author.username)) return;
     // only people not on ignore list \/
