@@ -51,6 +51,7 @@ const chat = async (client, message) => {
     if (!message.content.toLowerCase().includes('bloony')) return;
     // remove later
     const pastmsgs = perm_msgs.concat(temp_msgs);
+    console.log(pastmsgs);
 
     message.channel.sendTyping();
     const completion = await openai.chat.completions.create({ messages: pastmsgs, model: "gpt-3.5-turbo" }).catch(err => log(err, 'err'));
