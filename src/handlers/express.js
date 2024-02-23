@@ -1,7 +1,7 @@
 const ExtendedClient = require('../class/ExtendedClient');
 const { log } = require('../functions');
 const { changeData } = require('../tools');
-const { setup, resettemp } = require('../chat/module');
+const { setup, resettemp, cnsldtmsgs } = require('../chat/module');
 
 var createError = require('http-errors');
 var express = require('express');
@@ -38,20 +38,24 @@ module.exports = async (client) => {
         res.json(client.data);
     });
 
+    app.get('/api', (req, res, next) => {
+        client.stats.words = client.data.words.length;
+        res.json(client.stats);
+    });
+
     app.get('/updated', async (req, res) => {
         await changeData(client);
         await setup();
         res.json({ noted: true });
     });
     
-    app.get('/newchats', async (req, res) => {
+    app.get('/chathistory/reset', async (req, res) => {
         await resettemp();
-        res.json({ noted: true });
+        res.redirect('/chathistory');
     });
 
-    app.get('/log', async (req, res) => {
-        await client.forceNotify();
-        res.send(`Updated log at ${dayjs().format()}`);
+    app.get('/chathistory', async (req, res) => {
+        res.render('chats', { title: 'Chat History', pastmsgs: cnsldtmsgs() });
     });
 
     await changeData(client);

@@ -20,9 +20,13 @@ const newmodel = model('ChatSchema',
             type: Date,
             required: true
         },
+        n: {
+            type: Boolean,
+            required: false,
+            default: true,
+        },
     })
 );
 
 newmodel.watch().on('change', data => pingCat());
-
 module.exports = newmodel;

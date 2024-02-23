@@ -10,7 +10,6 @@ const chats = require('../chat/module');
 const express = require('../handlers/express');
 
 const { log, error } = require('../functions');
-const backlogjob = require('../jobs/backlogger');
 const dayjs = require("dayjs");
 const axios = require("axios");
 
@@ -34,6 +33,11 @@ module.exports = class extends Client {
         current_status: config.client.presence,
         status_change: false,
     };
+    stats = {
+        reacts: 0,
+        commands: 0,
+        words: 0,
+    };
     
     constructor() {
         super({
@@ -52,9 +56,6 @@ module.exports = class extends Client {
     sendHook = async (hookData) => {
         axios.post(process.env.HOOK, hookData);
     }
-    forceNotify = () => {
-        backlogjob.run(this);
-    }
 
     /**
      * Sends notification to the defined admin. 
@@ -64,7 +65,6 @@ module.exports = class extends Client {
     notify = (msg, style) => {
         if (['r_detect','r_random','r_reacts'].includes(style)) style = 'event';
         log(msg, style);
-        this.backlogs.push({ msg: msg, style: style, time: dayjs() });
     }
 
     /**
@@ -75,7 +75,6 @@ module.exports = class extends Client {
     nerrify = (err) => {
         log(err, 'err');
         this.notify(`${err}`, 'err');
-        this.forceNotify();
     }
 
     /**
@@ -101,7 +100,6 @@ module.exports = class extends Client {
             }
         }
         this.notify(`${newNick}\n\nSuceeded changing nickname in following servers:\n- ${successes.join('\n- ')}\nFailed in:\n- ${failures.join('\n- ')}`, 'info');
-        
     }
 
     start = async () => {

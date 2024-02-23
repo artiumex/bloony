@@ -30,6 +30,7 @@ module.exports = async (client, message) => {
         client.notify(`"${wl.name}" detected from "${author.username}": ${peekText(content, wl.terms)}`, 'r_detect');
         if (wl.awardable) termsCount++;
         await message.react(wl.emoji).catch(error);
+        client.stats.reacts++;
       } 
     }
 

@@ -1,39 +1,23 @@
 const { model, Schema } = require('mongoose');
 const { pingCat } = require('../functions');
 
-const newmodel = model('BotSettingsSchema', new Schema({
-    name: {
-        type: String,
-        required: true
-    },
+const newmodel = model('GuildSettingsSchema', new Schema({
     botid: {
         type: String,
         required: true
     },
-    change_status: {
-        type: Boolean,
-        required: true,
-        default: false,
-    },
-    current_status: {
+    name: {
         type: String,
-        required: true,
-        default: 'just woke :/',
+        required: true
     },
-    jwl2bln: {
-        type: Number,
-        required: true,
-        default: 100,
+    guildid: {
+        type: String,
+        required: true
     },
     countDelay: {
         type: Number,
-        required: true,
+        required: false,
         default: 15,
-    },
-    ignored: {
-        type: Array,
-        required: true,
-        default: [],
     },
     matchers: {
         reacts: {
@@ -41,10 +25,15 @@ const newmodel = model('BotSettingsSchema', new Schema({
             required: false,
             default: false,
         },
+        ai: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
         all_msg_matchers: {
             type: Boolean,
             required: false,
-            default: true,
+            default: false,
         },
         i_am: {
             type: Boolean,

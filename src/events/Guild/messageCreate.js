@@ -16,13 +16,33 @@ module.exports = {
    */
   run: async (client, message) => {
     if (message.author.bot || message.channel.type === ChannelType.DM) return;
+
+    const guildSettings = client.data.guilds.get(message.guildId).matchers;
+    const defSettings = client.data.matchers;
+
     // anyone and everyone \/
     //logging(client, message);
-      
+    // end universal matchers
+
+
+    // ignore people \/
     if (client.data.ignored.includes(message.author.username)) return;
     // only people not on ignore list \/
-    if (client.data.matchers.reacts) reacts(client, message);
-    if (client.data.matchers.all_msg_matchers) dadcat(client, message);
-    chat(client, message);
+
+
+    if (
+      defSettings.reacts &&
+      guildSettings.reacts
+    ) reacts(client, message);
+
+    if (
+      defSettings.all_msg_matchers &&
+      guildSettings.all_msg_matchers
+    ) dadcat(client, message);
+
+    if (
+      defSettings.ai &&
+      guildSettings.ai
+    ) chat(client, message);
   },
 };

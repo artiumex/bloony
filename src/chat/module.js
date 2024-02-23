@@ -18,15 +18,22 @@ const openai = new OpenAI({
     reply: the response to the prompt from the assistant
 */
 
-const resettemp = () => {
+const cnsldtmsgs = () => { return perm_msgs.concat(temp_msgs) }
+
+const resettemp = async () => {
+    perm_msgs = [];
     temp_msgs = [];
-    log('Reset non-persistent chats.', 'info')
+    await setup();
+    log('Reset non-persistent chats.', 'info');
 }
 
 const setup = async () => {
     let TEMPLIST = [];
-    TEMPLIST.push.apply(TEMPLIST, yaml.load(fs.readFileSync('./src/chat/personality.yml', 'utf8')));
-    TEMPLIST.push.apply(TEMPLIST, await Chats.find({}).sort({ date: 1 }));
+    TEMPLIST.push.apply(TEMPLIST, yaml.load(fs.readFileSync('./src/chat/prompts/personality.yml', 'utf8')));
+    // for (const file of fs.readdirSync('./src/chat/prompts/background').filter(e => e.endsWith('.yml'))) {
+    //     TEMPLIST.push.apply(TEMPLIST, yaml.load(fs.readFileSync('./src/chat/prompts/background/' + file, 'utf8')));
+    // }
+    TEMPLIST.push.apply(TEMPLIST, await Chats.find({ n: true }).sort({ date: 1 }));
 
     for (const block of TEMPLIST) {
         if (!block.prompt || !block.reply) continue;
@@ -47,31 +54,32 @@ const setup = async () => {
 
 const chat = async (client, message) => {
     if (message.author.bot) return;
-    // if not include trigger words: return
-    if (!message.content.toLowerCase().includes('bloony')) return;
-    // remove later
-    const pastmsgs = perm_msgs.concat(temp_msgs);
-    console.log(pastmsgs);
+    if (
+        !message.content.toLowerCase().includes('@'+client.data.name) && 
+        !message.content.includes(`<@${client.user.id}>`)
+    ) return;
+    let prompt = message.content
+        .replace(`<@${client.user.id}>`, '');
+    temp_msgs.push({
+        role: 'user',
+        content: prompt,
+    });
+    const pastmsgs = cnsldtmsgs();
 
     message.channel.sendTyping();
     const completion = await openai.chat.completions.create({ messages: pastmsgs, model: "gpt-3.5-turbo" }).catch(err => log(err, 'err'));
     if (!completion) return log("AI call failed.", 'warn');
     const botResponse = completion.choices[0].message.content;
+    temp_msgs.push({
+        role: 'assistant',
+        content: botResponse
+    });
     await message.channel.send({ content: botResponse });
-
-    temp_msgs.push.apply(temp_msgs, [
-        {
-            role: 'user',
-            content: message.content,
-        }, {
-            role: 'assistant',
-            content: botResponse
-        }
-    ]);
 }
 
 module.exports = {
     setup,
     chat,
     resettemp,
+    cnsldtmsgs,
 }

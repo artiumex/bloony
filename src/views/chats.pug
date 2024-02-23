@@ -1,0 +1,8 @@
+extends layout
+
+block content
+    h1 Chat History
+    each item in pastmsgs
+        h3 #{item.role}
+        p #{item.content}
+        p

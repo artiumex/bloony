@@ -37,6 +37,8 @@ module.exports = {
 
     if (!command) return;
 
+    client.stats.commands++;
+
     try {
       if (client.data.ignored.some(e => e == interaction.user.username)) {
         await interaction.reply({

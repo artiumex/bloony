@@ -7,7 +7,8 @@ const { random, error, log, titleCase } = require("./functions");
 
 const Wallet = require("./schemas/WalletSchema");
 const Words = require('./schemas/WordsSchema');
-const Statuses = require('./schemas/StatusSchema');
+// const Statuses = require('./schemas/StatusSchema');
+const GuildSettings = require('./schemas/GuildSettingsSchema');
 // const Ignored = require('./schemas/IgnoredSchema');
 const Bot = require('./schemas/BotSettingsSchema');
 
@@ -92,6 +93,7 @@ const views = (client, name) => {
  */
 const changeData = async (client) => {
     const words = await Words.find({});
+    const guilds = await GuildSettings.find({ botid: client.user.id });
     let settings = await Bot.findOne({ botid: process.env.DISCORD_BOTID });
     let items = {};
     items.words = words.map(e => {
@@ -107,6 +109,12 @@ const changeData = async (client) => {
         if (e.ignored.length > 0) output.ignored = e.ignored;
         return output
     });
+    items.guilds = new Map();
+    for (const settings of guilds) {
+        let obj = {};
+        Object.keys(settings._doc).map(e => obj[e] = settings[e]);
+        items.guilds.set(obj.guildid, obj);
+    }
     for (const x of Object.keys(settings._doc)) {
         items[x] = settings[x];
     }
@@ -120,6 +128,7 @@ const changeData = async (client) => {
         }]
     });
     log('Updated bot data', 'info');
+    log(`Stored ${client.data.guilds.size} server settings`, 'info');
 }
 
 module.exports = {
