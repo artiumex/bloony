@@ -54,12 +54,8 @@ const setup = async () => {
 
 const chat = async (client, message) => {
     if (message.author.bot) return;
-    if (
-        !message.content.toLowerCase().includes('@'+client.data.name) && 
-        !message.content.includes(`<@${client.user.id}>`)
-    ) return;
-    let prompt = message.content
-        .replace(`<@${client.user.id}>`, '');
+    if (!message.content.includes(`<@${client.user.id}>`)) return;
+    let prompt = message.content.replace(`<@${client.user.id}>`, '');
     temp_msgs.push({
         role: 'user',
         content: prompt,
