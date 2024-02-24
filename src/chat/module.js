@@ -18,7 +18,10 @@ const openai = new OpenAI({
     reply: the response to the prompt from the assistant
 */
 
-const cnsldtmsgs = () => { return perm_msgs.concat(temp_msgs) }
+const cnsldtmsgs = () => {
+    const a = perm_msgs, b = temp_msgs;
+    return a.concat(b)
+}
 
 const resettemp = async () => {
     perm_msgs = [];
@@ -58,8 +61,7 @@ const chat = async (client, message) => {
         !message.content.toLowerCase().includes('@'+client.data.name) && 
         !message.content.includes(`<@${client.user.id}>`)
     ) return;
-    let prompt = message.content
-        .replace(`<@${client.user.id}>`, '');
+    let prompt = message.content.replace(`<@${client.user.id}>`, '');
     temp_msgs.push({
         role: 'user',
         content: prompt,
@@ -68,7 +70,11 @@ const chat = async (client, message) => {
 
     message.channel.sendTyping();
     const completion = await openai.chat.completions.create({ messages: pastmsgs, model: "gpt-3.5-turbo" }).catch(err => log(err, 'err'));
-    if (!completion) return log("AI call failed.", 'warn');
+    if (!completion) {
+        temp_msgs.pop();
+        return log("AI call failed.", 'warn');
+    }
+    client.stats.ai++;
     const botResponse = completion.choices[0].message.content;
     temp_msgs.push({
         role: 'assistant',

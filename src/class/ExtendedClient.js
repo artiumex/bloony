@@ -36,7 +36,7 @@ module.exports = class extends Client {
     stats = {
         reacts: 0,
         commands: 0,
-        words: 0,
+        ai: 0,
     };
     
     constructor() {

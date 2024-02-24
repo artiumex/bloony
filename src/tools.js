@@ -127,6 +127,8 @@ const changeData = async (client) => {
             state: client.data.current_status,
         }]
     });
+    client.stats.words = client.data.words.length;
+    client.stats.status = client.data.current_status;
     log('Updated bot data', 'info');
     log(`Stored ${client.data.guilds.size} server settings`, 'info');
 }

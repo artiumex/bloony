@@ -39,7 +39,6 @@ module.exports = async (client) => {
     });
 
     app.get('/api', (req, res, next) => {
-        client.stats.words = client.data.words.length;
         res.json(client.stats);
     });
 
