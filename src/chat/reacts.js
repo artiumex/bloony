@@ -11,15 +11,11 @@ async function readTextInImages(content, attachments) {
   if (!files.length > 0 || !attachments.size > 0) return content;
   var output = content;
 
-  // replace with for loop
   for (const url of files) {
-    console.log(url);
     const { data: { text } } = await Tesseract.recognize(url);
-    console.log(text);
     output = `${output} ${text}`;
   }
   
-  // ouput 
   return output;
 }
 
