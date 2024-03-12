@@ -95,7 +95,8 @@ const changeData = async (client) => {
     const words = await Words.find({});
     const guilds = await GuildSettings.find({ botid: client.user.id });
     let settings = await Bot.findOne({ botid: process.env.DISCORD_BOTID });
-    let items = {};
+    
+    let items = settings._doc;
     items.words = words.map(e => {
         const output = {
             name: titleCase(e.name),
@@ -109,15 +110,9 @@ const changeData = async (client) => {
         if (e.ignored.length > 0) output.ignored = e.ignored;
         return output
     });
+
     items.guilds = new Map();
-    for (const settings of guilds) {
-        let obj = {};
-        Object.keys(settings._doc).map(e => obj[e] = settings[e]);
-        items.guilds.set(obj.guildid, obj);
-    }
-    for (const x of Object.keys(settings._doc)) {
-        items[x] = settings[x];
-    }
+    guilds.map(e => items.guilds.set(e.guildid, e._doc));
 
     client.data = items;
     client.user.setPresence({
